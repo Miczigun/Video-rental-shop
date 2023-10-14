@@ -23,12 +23,13 @@ public class VideoRentalShop {
         EntityManager em = emf.createEntityManager();
         
         // Create a new genre
-        Genre newGenre = new Genre();
-        newGenre.setName("Thriller"); // Set the genre name
+ // Set the genre name
         
         // Start a transaction
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
+        Genre newGenre = new Genre();
+        newGenre.setName("Action");
         
         // Persist the new genre
         em.persist(newGenre);
