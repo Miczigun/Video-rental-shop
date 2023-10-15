@@ -7,7 +7,8 @@ package com.mycompany.video_rental_shop.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 
 /**
  *
@@ -20,7 +21,9 @@ public class User {
     private long id;
     private String username;
     private String password;
-    private boolean premium;
+    private boolean premium = false;
     private int balance;
+    @OneToMany
+    private List<Movie> movies;
     
 }

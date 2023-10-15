@@ -28,6 +28,5 @@ public class Movie {
     @Column(columnDefinition = "YEAR")
     private int year;
     @ManyToOne
-    @JoinColumn(name = "genre")
     private Genre genre;
 }

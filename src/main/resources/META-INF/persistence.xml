@@ -13,7 +13,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
             Persistence unit for the Jakarta Persistence tutorial of the Hibernate Getting Started Guide
         </description>
         <!--provider>org.hibernate.jpa.HibernatePersistenceProvider</provider-->
-        <class>com.mycompany.video_rental_shop.model.Genre</class>     
+        <class>com.mycompany.video_rental_shop.model.Genre</class>
+        <class>com.mycompany.video_rental_shop.model.Movie</class> 
+        <class>com.mycompany.video_rental_shop.model.User</class>      
 
         <properties>    
             <!-- Database connection settings -->

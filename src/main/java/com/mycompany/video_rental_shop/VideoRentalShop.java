@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import java.util.List;
 
 /**
  *
@@ -28,11 +30,12 @@ public class VideoRentalShop {
         // Start a transaction
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        Genre newGenre = new Genre();
-        newGenre.setName("Action");
+        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g", Genre.class);
+        List<Genre> result = query.getResultList();
         
-        // Persist the new genre
-        em.persist(newGenre);
+        for (Genre genre: result){
+            System.out.println(genre);
+        }
         
         // Commit the transaction to save the changes to the database
         transaction.commit();
