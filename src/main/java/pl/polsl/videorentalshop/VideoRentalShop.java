@@ -14,6 +14,8 @@ import java.util.List;
 import pl.polsl.model.Movie;
 import pl.polsl.controller.MovieController;
 import pl.polsl.controller.GenreController;
+import pl.polsl.controller.UserController;
+import pl.polsl.model.User;
 
 /**
  *
@@ -24,6 +26,8 @@ public class VideoRentalShop {
     public static void main(String[] args) {
         GenreController gc = new GenreController();
         MovieController mc = new MovieController();
+        UserController uc = new UserController();
+        User newUser = new User();
         Movie newMovie = new Movie();
         Genre drama = new Genre();
         
@@ -37,6 +41,15 @@ public class VideoRentalShop {
         mc.addMovie(newMovie);
         List<Movie> movies = mc.getAllMovies();
         for (Movie movy : movies) {
+            System.out.println(movy);
+        }
+        
+        uc.createUser("miczi", "miczi");
+        newUser = uc.getUserById(1);
+//        uc.topUpTheAccount(newUser.getId(), 100);
+//        uc.buyMovie(newUser, mc.getMovieById(52));
+        for (Movie movy : newUser.getMovies()) {
+            System.out.println("Tytuł");
             System.out.println(movy);
         }
     }
