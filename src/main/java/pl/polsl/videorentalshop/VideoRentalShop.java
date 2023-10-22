@@ -31,23 +31,25 @@ public class VideoRentalShop {
         Movie newMovie = new Movie();
         Genre drama = new Genre();
         
-        drama = gc.getGenre(1);
-        newMovie.setTitle("Titanic");
-        newMovie.setPrice(20);
-        newMovie.setYear(1997);
-        newMovie.setRating(7.9f);
-        newMovie.setGenre(drama);
+//        drama = gc.getGenre(5);
+//        newMovie.setTitle("Pulp Fiction");
+//        newMovie.setPrice(15);
+//        newMovie.setYear(1994);
+//        newMovie.setRating(8.9f);
+//        newMovie.setGenre(drama);
         
-        mc.addMovie(newMovie);
+        //mc.addMovie(newMovie);
         List<Movie> movies = mc.getAllMovies();
         for (Movie movy : movies) {
             System.out.println(movy);
         }
         
-        uc.createUser("miczi", "miczi");
-        newUser = uc.getUserById(1);
-//        uc.topUpTheAccount(newUser.getId(), 100);
-//        uc.buyMovie(newUser, mc.getMovieById(52));
+        //uc.createUser("miczi", "miczi");
+        newUser = uc.loginUser("miczi", "miczi");
+        System.out.println(newUser);
+        //uc.topUpTheAccount(newUser.getId(), 100);
+        //uc.buyPremium(newUser);
+        //uc.buyMovie(newUser, mc.getMovieById(452));
         for (Movie movy : newUser.getMovies()) {
             System.out.println("Tytuł");
             System.out.println(movy);

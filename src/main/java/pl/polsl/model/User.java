@@ -28,7 +28,7 @@ public class User {
     private String username;
     private String password;  
     private boolean premium = false;
-    private int balance;
+    private double balance;
     
     @OneToMany
     private List<Movie> movies;
@@ -36,5 +36,9 @@ public class User {
     
     public void setPassword(String password){
         this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());    
+    }
+    
+    public boolean getPremium(){
+        return this.premium;
     }
 }

@@ -4,9 +4,13 @@
  */
 package pl.polsl.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import java.util.List;
 import pl.polsl.model.Movie;
 import pl.polsl.model.User;
 
@@ -41,6 +45,20 @@ public class UserController {
         }   
     }
     
+    public User loginUser(String username, String password){
+        try {
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+            query.setParameter("username", username);
+            User user = query.getSingleResult();
+            if (BCrypt.verifyer().verify(password.toCharArray(), user.getPassword()).verified) {
+                return user; // Successful login
+            }
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public User getUserById(long id){
         return entityManager.find(User.class, id);
     }
@@ -49,7 +67,7 @@ public class UserController {
         try {
         entityManager.getTransaction().begin();
         User user = entityManager.find(User.class, user_id);
-        int currentBalance = user.getBalance();
+        double currentBalance = user.getBalance();
         user.setBalance(money + currentBalance);
         entityManager.getTransaction().commit();
         } catch(Exception e){
@@ -61,12 +79,17 @@ public class UserController {
     }
     
     public void buyMovie(User user, Movie movie){
-        if (user.getBalance() >= movie.getPrice()){
+        double discount = 1;
+        if(user.getPremium()){
+            discount = 0.7;
+        }
+        if (user.getBalance() >= (movie.getPrice() * discount)){
             try {
                 entityManager.getTransaction().begin();
 
-                user.setBalance(user.getBalance() - movie.getPrice());
-                user.getMovies().add(movie);
+                user.setBalance(user.getBalance() - (movie.getPrice() * discount));
+                List<Movie> userMovies = user.getMovies();
+                userMovies.add(movie); 
 
                 entityManager.merge(user);
                 entityManager.getTransaction().commit();
@@ -77,5 +100,31 @@ public class UserController {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public boolean buyPremium(User user){
+        if(user.getPremium()){
+            return false;
+        }
+        
+        if (user.getBalance() >= 60) {
+            try {
+                entityManager.getTransaction().begin();
+                user.setBalance(user.getBalance() - 60);
+                user.setPremium(true);
+                entityManager.getTransaction().commit();
+                return true;
+            } catch (Exception e) {
+                if (entityManager.getTransaction().isActive()) {
+                    entityManager.getTransaction().rollback();
+                }
+                e.printStackTrace();
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+        
     }
 }
