@@ -16,7 +16,8 @@ import lombok.Data;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.0
  */
 @Data
 @Entity
@@ -33,11 +34,17 @@ public class User {
     @OneToMany
     private List<Movie> movies;
     
-    
+    /**
+     * Set password using Bcrypt function
+     * @param password 
+     */
     public void setPassword(String password){
         this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());    
     }
-    
+    /**
+     * This method return 'premium' variable and if return value is true, user has premium
+     * @return 
+     */
     public boolean getPremium(){
         return this.premium;
     }

@@ -12,21 +12,34 @@ import pl.polsl.model.Genre;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.0
  */
 public class GenreController {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     
+    /**
+     * This constructor create connection with database and allows to create queries
+     */
     public GenreController(){
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
     }
     
+    /**
+     * This method find genre by id and return Genre object
+     * @param id
+     * @return 
+     */
     public Genre getGenre(int id){
         return entityManager.find(Genre.class, id);
     }
     
+    /**
+     * This method return list of genres
+     * @return 
+     */
     public List<Genre> getGenres(){
         return entityManager.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
     }

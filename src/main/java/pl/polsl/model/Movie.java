@@ -16,7 +16,8 @@ import lombok.Getter;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.0
  */
 @Data
 @Entity
@@ -33,7 +34,10 @@ public class Movie {
     @JoinColumn(name = "genre")
     private Genre genre;
     
-    
+    /**
+     * This method return just genre name, because genre id is unnecessary
+     * @return 
+     */
     public String getGenre(){
         return genre.getName();
     }

@@ -10,7 +10,9 @@ import lombok.Data;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.0
+ * 
  */
 @Data
 @Entity

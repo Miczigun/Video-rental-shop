@@ -12,17 +12,25 @@ import pl.polsl.model.Movie;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.0
  */
 public class MovieController {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     
+    /**
+     * This constructor create connection with database and allows to create queries
+     */
     public MovieController(){
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
     }
     
+    /**
+     * This method add movie to database
+     * @param movie 
+     */
     public void addMovie(Movie movie){
         try {
             entityManager.getTransaction().begin();
@@ -35,11 +43,19 @@ public class MovieController {
             e.printStackTrace();
         }
     }
-    
+    /**
+     * This method return movie by id
+     * @param id
+     * @return 
+     */
     public Movie getMovieById(long id) {
         return entityManager.find(Movie.class,id);
     }
     
+    /**
+     * This method delete movie from database, if movie exists
+     * @param id 
+     */
     public void deleteMovie(long id) {
         try {
             entityManager.getTransaction().begin();
@@ -56,6 +72,11 @@ public class MovieController {
         }
     }
     
+    /**
+     * This method update movie price and it is allow just for admin
+     * @param id
+     * @param price 
+     */
     public void updateMoviePrice(long id, int price){
         try {
             entityManager.getTransaction().begin();
@@ -72,10 +93,19 @@ public class MovieController {
         }
     }
     
+    /**
+     * This method return list of all movies
+     * @return 
+     */
     public List<Movie> getAllMovies() {
         return entityManager.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
     }
     
+    /**
+     * This method return only movies from one genre
+     * @param genre_id
+     * @return 
+     */
     public List<Movie> getMoviesByGenre(int genre_id){
         return entityManager.createQuery("SELECT m FROM Movie m WHERE m.genre = :genre_id ", Movie.class).setParameter(genre_id, this).getResultList();
     }

@@ -16,17 +16,26 @@ import pl.polsl.model.User;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.0
  */
 public class UserController {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     
+    /**
+     * This constructor create connection with database and allows to create queries
+     */
     public UserController(){
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
     }
     
+    /**
+     * This method create user and add user to database
+     * @param username
+     * @param password 
+     */
     public void createUser(String username, String password) {
         try {
             entityManager.getTransaction().begin();
@@ -44,7 +53,12 @@ public class UserController {
             e.printStackTrace();
         }   
     }
-    
+    /**
+     * This method login user, if data are correct
+     * @param username
+     * @param password
+     * @return 
+     */
     public User loginUser(String username, String password){
         try {
             TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
@@ -58,11 +72,20 @@ public class UserController {
         }
         return null;
     }
-    
+    /**
+     * This method find user by id
+     * @param id
+     * @return 
+     */
     public User getUserById(long id){
         return entityManager.find(User.class, id);
     }
     
+    /**
+     * This method allows to top up the account
+     * @param user_id
+     * @param money 
+     */
     public void topUpTheAccount(long user_id, int money){
         try {
         entityManager.getTransaction().begin();
@@ -78,6 +101,11 @@ public class UserController {
         }
     }
     
+    /**
+     * This method allows to buy movie, if user has money on account
+     * @param user
+     * @param movie 
+     */
     public void buyMovie(User user, Movie movie){
         double discount = 1;
         if(user.getPremium()){
@@ -102,6 +130,11 @@ public class UserController {
         }
     }
     
+    /**
+     * This method allows to buy premium which gives 30% discount on movies
+     * @param user
+     * @return 
+     */
     public boolean buyPremium(User user){
         if(user.getPremium()){
             return false;

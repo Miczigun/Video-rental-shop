@@ -6,7 +6,8 @@ package pl.polsl.controller;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.0
  */
 public class Controller {
     
