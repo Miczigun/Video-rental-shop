@@ -11,6 +11,7 @@ import pl.polsl.model.User;
 /**
  *
  * @author Miczi
+ * @version 1.0
  */
 public class MainFrame extends javax.swing.JFrame {
     private UserController userController;
@@ -75,7 +76,6 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel6.setText("Login Panel");
 
         jPasswordField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPasswordField3.setText("jPasswordField3");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -132,10 +132,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel7.setText("Register Panel");
 
         jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPasswordField1.setText("jPasswordField1");
 
         jPasswordField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPasswordField2.setText("jPasswordField2");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -206,6 +204,7 @@ public class MainFrame extends javax.swing.JFrame {
             // For example, you can open a new window to display available movies.
             // Replace the following line with your desired action.
             JOptionPane.showMessageDialog(this, "Login successful.");
+            openUserFrame(user);
         } else {
             JOptionPane.showMessageDialog(this, "Login failed. Invalid username or password.");
         }
@@ -219,18 +218,29 @@ public class MainFrame extends javax.swing.JFrame {
         String username = jTextField3.getText();
         String password1 = new String(jPasswordField1.getPassword());
         String password2 = new String(jPasswordField2.getPassword());
-
-        if (password1.equals(password2)) {
-            userController.createUser(username, password1);
-            JOptionPane.showMessageDialog(this, "Registration successful. You can now log in.");
-        } else {
-            JOptionPane.showMessageDialog(this, "Passwords do not match. Please try again.");
+        if (userController.getUserByName(username) == null){
+            if (password1.equals(password2)) {
+                userController.createUser(username, password1);
+                JOptionPane.showMessageDialog(this, "Registration successful. You can now log in.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Passwords do not match. Please try again.");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "That username is taken!");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
     
     public void setUserController(UserController userController) {
     this.userController = userController;
     }
+    
+    private void openUserFrame(User user) {
+    UserFrame userFrame = new UserFrame();
+    userFrame.setUser(user);
+    userFrame.setVisible(true);
+    this.dispose(); // Close the login frame
+}
     
     /**
      * @param args the command line arguments

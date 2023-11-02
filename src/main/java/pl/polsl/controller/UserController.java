@@ -81,6 +81,13 @@ public class UserController {
         return entityManager.find(User.class, id);
     }
     
+    public User getUserByName(String name){
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :name", User.class);
+        query.setParameter("name", name);
+        User user = query.getSingleResult();
+        return user;
+    }
+    
     /**
      * This method allows to top up the account
      * @param user_id
