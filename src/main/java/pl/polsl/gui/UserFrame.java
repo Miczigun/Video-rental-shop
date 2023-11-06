@@ -24,9 +24,17 @@ public class UserFrame extends javax.swing.JFrame {
     private User user;
     private MovieController movieController;
     private UserController userController;
+    private MainFrame mainFrame;
     /**
      * Creates new form UserFrame
      */
+    public UserFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        this.movieController = new MovieController();
+        this.userController = new UserController();
+        initComponents();
+        displayMovies();
+    }
     public UserFrame() {
         this.movieController = new MovieController();
         this.userController = new UserController();
@@ -58,6 +66,11 @@ public class UserFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Movies");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Your Movies");
 
@@ -133,7 +146,12 @@ public class UserFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        mainFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Handle "Movies" button click
         // Fetch movies from the database and display them in the JTable
 
@@ -168,10 +186,7 @@ public class UserFrame extends javax.swing.JFrame {
             model.addRow(row);
             jTable1.setValueAt(buyButton, jTable1.getRowCount() - 1, 4);
         }
-    }
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
     private void buyButtonClicked(int rowIndex) {
     if (rowIndex < 0 || rowIndex >= jTable1.getRowCount()) {
         JOptionPane.showMessageDialog(this, "Please select a valid movie.");

@@ -84,8 +84,12 @@ public class UserController {
     public User getUserByName(String name){
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :name", User.class);
         query.setParameter("name", name);
-        User user = query.getSingleResult();
-        return user;
+        try {
+            User user = query.getSingleResult();
+            return user;            
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     
     /**
