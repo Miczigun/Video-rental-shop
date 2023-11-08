@@ -236,8 +236,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private void openUserFrame(User user) {
-    UserFrame userFrame = new UserFrame(this);
-    userFrame.setUser(user);
+    UserFrame userFrame = new UserFrame(this, user);
     userFrame.setVisible(true);
     this.dispose(); // Close the login frame
 }

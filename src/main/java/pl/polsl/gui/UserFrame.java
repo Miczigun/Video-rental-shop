@@ -28,7 +28,8 @@ public class UserFrame extends javax.swing.JFrame {
     /**
      * Creates new form UserFrame
      */
-    public UserFrame(MainFrame mainFrame) {
+    public UserFrame(MainFrame mainFrame, User user) {
+        this.user = user;
         this.mainFrame = mainFrame;
         this.movieController = new MovieController();
         this.userController = new UserController();
@@ -42,9 +43,6 @@ public class UserFrame extends javax.swing.JFrame {
         displayMovies();
     }
     
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,6 +58,8 @@ public class UserFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -73,6 +73,11 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Your Movies");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Logout");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -82,8 +87,19 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Username");
+        jLabel1.setText(user.getUsername());
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jButton4.setText("Top up wallet");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Wallet: " + user.getBalance());
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -95,8 +111,10 @@ public class UserFrame extends javax.swing.JFrame {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(96, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,9 +122,13 @@ public class UserFrame extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -132,15 +154,12 @@ public class UserFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -152,41 +171,65 @@ public class UserFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Handle "Movies" button click
-        // Fetch movies from the database and display them in the JTable
-
-        // Get all movies from the MovieController
+        // Fetch the list of movies from the database using movieController
         List<Movie> movies = movieController.getAllMovies();
 
-        // Create a table model for the JTable
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Clear existing rows
 
-        // Clear existing rows in the table
-        model.setRowCount(0);
-
-        // Populate the table with movies
         for (Movie movie : movies) {
-            // Add a row for each movie
             Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
 
-            // Add a button to buy the movie
-            JButton buyButton = new JButton("Buy");
-            buyButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    buyButtonClicked(jTable1.getSelectedRow());
-                }
-            });
-
-            // Set a custom renderer to display the button
-            jTable1.getColumn("").setCellRenderer(new ButtonRenderer());
-            jTable1.getColumn("").setCellEditor(new ButtonEditor(new JCheckBox()));
-
-            // Add the row with the "Buy" button
+            // Set the movie ID as a hidden value in the last column (index 4)
+             // Assuming getId() retrieves the movie ID
+            row[4] = movie.getId();
             model.addRow(row);
-            jTable1.setValueAt(buyButton, jTable1.getRowCount() - 1, 4);
         }
+
+        // Add a custom renderer for the "Buy" column to display a button
+        //jTable1.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+
+        // Add a custom editor for the "Buy" column to handle button click
+        //jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        List<Movie> userMovies = user.getMovies();
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Clear existing rows
+        
+        for (Movie movie : userMovies) {
+            Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Delete" };
+
+            // Set the movie ID as a hidden value in the last column (index 4)
+             // Assuming getId() retrieves the movie ID
+            model.addRow(row);
+        }
+        
+        //jTable1.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Delete"));
+        // Add a custom editor for the "Buy" column to handle button click
+        //jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Delete"));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String value = JOptionPane.showInputDialog("How much do you want to top up your account for?");
+        if (value != null){
+            try {
+                int wallet = Integer.parseInt(value);
+                if (wallet > 0 ){
+                    userController.topUpTheAccount(user.getId(), wallet);
+                    user = userController.getUserById(user.getId());
+                    jLabel2.setText("Wallet: " + user.getBalance());
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Value must be greater than zero!");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.");
+            }
+        }
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
     private void buyButtonClicked(int rowIndex) {
     if (rowIndex < 0 || rowIndex >= jTable1.getRowCount()) {
         JOptionPane.showMessageDialog(this, "Please select a valid movie.");
@@ -217,18 +260,17 @@ public class UserFrame extends javax.swing.JFrame {
 
         for (Movie movie : movies) {
             Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
-
-            // Set the movie ID as a hidden value in the last column (index 4)
-            row[4] = movie.getId(); // Assuming getId() retrieves the movie ID
-
+           
+            row[4] = movie.getId();
             model.addRow(row);
+            
         }
 
         // Add a custom renderer for the "Buy" column to display a button
         jTable1.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
 
         // Add a custom editor for the "Buy" column to handle button click
-        jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
+        jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
     }
     /**
      * @param args the command line arguments
@@ -269,7 +311,9 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

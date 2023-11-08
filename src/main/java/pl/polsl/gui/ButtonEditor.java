@@ -17,11 +17,13 @@ import javax.swing.JTable;
 class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
     private String label;
+    private long movieId;
     private boolean isPushed;
 
-    public ButtonEditor(JCheckBox checkBox) {
+    public ButtonEditor(JCheckBox checkBox, String label) {
         super(checkBox);
-        button = new JButton();
+        this.label = label;
+        button = new JButton("Buy");
         button.setOpaque(true);
         button.addActionListener(e -> fireEditingStopped());
     }
