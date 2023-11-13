@@ -1,0 +1,36 @@
+[ {
+  "id" : 1,
+  "username" : "miczi",
+  "password" : "$2a$12$mEsylSVeV.5OaQSpOtb58.kwURtICsd/wQT1gcRx/b.uuiWYoxMDm",
+  "premium" : true,
+  "balance" : 200.0,
+  "movies" : [ {
+    "id" : 52,
+    "title" : "Titanic",
+    "price" : 20,
+    "rating" : 7.9,
+    "year" : 1997,
+    "genre" : "Drama"
+  }, {
+    "id" : 452,
+    "title" : "Pulp Fiction",
+    "price" : 15,
+    "rating" : 8.9,
+    "year" : 1994,
+    "genre" : "Crime"
+  } ]
+}, {
+  "id" : 152,
+  "username" : "adrian",
+  "password" : "$2a$12$fVsbrVb5jAsPf4X/BtlEGOx9dc7lx33.jwQgqiQtcuskdgCPBICDq",
+  "premium" : false,
+  "balance" : 0.0,
+  "movies" : [ ]
+}, {
+  "id" : 202,
+  "username" : "michael",
+  "password" : "$2a$12$reCv2dNjqu0lH3AfVolM5OEL09hHyfmT9fj4MlKbffv/WaBLGH0vK",
+  "premium" : false,
+  "balance" : 0.0,
+  "movies" : [ ]
+} ]

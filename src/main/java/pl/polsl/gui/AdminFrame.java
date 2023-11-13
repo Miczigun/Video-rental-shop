@@ -4,16 +4,20 @@
  */
 package pl.polsl.gui;
 
+import javax.swing.JOptionPane;
+import pl.polsl.controller.AdminController;
+
 /**
  *
  * @author Miczi
  */
 public class AdminFrame extends javax.swing.JFrame {
-
+    private AdminController adminController;
     /**
      * Creates new form AdminFrame
      */
     public AdminFrame() {
+        this.adminController = new AdminController();
         initComponents();
     }
 
@@ -42,6 +46,11 @@ public class AdminFrame extends javax.swing.JFrame {
         jButton1.setText("Movies");
 
         jButton2.setText("Generate report");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,6 +106,14 @@ public class AdminFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(adminController.generateReport()){
+            JOptionPane.showMessageDialog(rootPane, "The report was generated correctly");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Report cannot be generated!");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

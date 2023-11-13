@@ -81,6 +81,10 @@ public class UserController {
         return entityManager.find(User.class, id);
     }
     
+    public List<User> getAllUsers(){
+        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
+    
     public User getUserByName(String name){
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :name", User.class);
         query.setParameter("name", name);
