@@ -179,6 +179,7 @@ public class UserFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        List<String> genreNames = genreController.getGenres();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton5 = new javax.swing.JButton();
 
@@ -266,7 +267,7 @@ public class UserFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>());
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(genreNames.toArray(new String[0])));
 
         jButton5.setText("Search");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -386,7 +387,29 @@ public class UserFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        List<Movie> movies = movieController.getMoviesByGenre(jComboBox1.getSelectedItem().toString());
+        
+        if (movies.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "We do not have movie from this genre");
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Clear existing rows
+
+        for (Movie movie : movies) {
+            Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
+           
+            row[4] = movie.getId();
+            model.addRow(row);
+            
+        }
+
+        // Add a custom renderer for the "Buy" column to display a button
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+
+        // Add a custom editor for the "Buy" column to handle button click
+        jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
     }//GEN-LAST:event_jButton5ActionPerformed
     private void buyButtonClicked(int rowIndex) {
     if (rowIndex < 0 || rowIndex >= jTable1.getRowCount()) {

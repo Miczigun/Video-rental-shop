@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import java.util.List;
+import java.util.stream.Collectors;
 import pl.polsl.model.Genre;
 
 /**
@@ -37,10 +38,15 @@ public class GenreController {
     }
     
     /**
-     * This method return list of genres
+     * This method return list of genres names
      * @return 
      */
-    public List<Genre> getGenres(){
-        return entityManager.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
+    public List<String> getGenres(){
+        List<Genre> genres =  entityManager.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
+        
+        List<String> genresNames = genres.stream().map(Genre::getName).collect(Collectors.toList());
+        
+        return genresNames;
+                                            
     }
 }

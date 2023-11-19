@@ -106,7 +106,7 @@ public class MovieController {
      * @param genre_id
      * @return 
      */
-    public List<Movie> getMoviesByGenre(int genre_id){
-        return entityManager.createQuery("SELECT m FROM Movie m WHERE m.genre = :genre_id ", Movie.class).setParameter(genre_id, this).getResultList();
+    public List<Movie> getMoviesByGenre(String genreName){
+        return entityManager.createQuery("SELECT m FROM Movie m WHERE m.genre.name = :genreName ", Movie.class).setParameter("genreName", genreName).getResultList();
     }
 }
