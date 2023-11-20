@@ -151,6 +151,7 @@ public class UserFrame extends javax.swing.JFrame {
         this.userController = new UserController();
         initComponents();
         displayMovies();
+        setStatusUser();;
     }
     public UserFrame() {
         this.movieController = new MovieController();
@@ -176,6 +177,8 @@ public class UserFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -186,6 +189,7 @@ public class UserFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Movies");
+        jButton1.setToolTipText("Click to view movies");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -193,6 +197,7 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Your Movies");
+        jButton2.setToolTipText("Click to view your movies");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -200,6 +205,7 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         jButton3.setText("Logout");
+        jButton3.setToolTipText("Click to log out from your account");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -211,6 +217,7 @@ public class UserFrame extends javax.swing.JFrame {
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jButton4.setText("Top up wallet");
+        jButton4.setToolTipText("Click to add funds to your wallet");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -221,25 +228,40 @@ public class UserFrame extends javax.swing.JFrame {
         jLabel2.setText("Wallet: " + user.getBalance());
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Standard User");
+
+        jButton6.setText("Buy Premium");
+        jButton6.setToolTipText("Click to purchase premium access");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(96, 96, 96)
+                .addGap(93, 93, 93)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(99, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(34, 34, 34)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
@@ -249,6 +271,8 @@ public class UserFrame extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -262,14 +286,16 @@ public class UserFrame extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title", "Genre", "Year", "Price", ""
+                "Id","Title", "Genre", "Year", "Price", ""
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(genreNames.toArray(new String[0])));
+        jComboBox1.setToolTipText("Select your genre");
 
         jButton5.setText("Search");
+        jButton5.setToolTipText("Click to perform a search");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -281,7 +307,7 @@ public class UserFrame extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(262, Short.MAX_VALUE)
+                .addContainerGap(261, Short.MAX_VALUE)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
@@ -324,7 +350,15 @@ public class UserFrame extends javax.swing.JFrame {
         mainFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    
+    public void setStatusUser(){
+        if(user.getPremium()){
+            jLabel3.setText("Premium User");
+        }
+        else{
+            jLabel3.setText("Standard User");
+        }
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Fetch the list of movies from the database using movieController
         List<Movie> movies = movieController.getAllMovies();
@@ -333,11 +367,10 @@ public class UserFrame extends javax.swing.JFrame {
         model.setRowCount(0); // Clear existing rows
 
         for (Movie movie : movies) {
-            Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
+            Object[] row = { movie.getId(), movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
 
             // Set the movie ID as a hidden value in the last column (index 4)
              // Assuming getId() retrieves the movie ID
-            row[4] = movie.getId();
             model.addRow(row);
         }
 
@@ -355,7 +388,7 @@ public class UserFrame extends javax.swing.JFrame {
         model.setRowCount(0); // Clear existing rows
         
         for (Movie movie : userMovies) {
-            Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Delete" };
+            Object[] row = { movie.getId(), movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Delete" };
 
             // Set the movie ID as a hidden value in the last column (index 4)
              // Assuming getId() retrieves the movie ID
@@ -398,19 +431,29 @@ public class UserFrame extends javax.swing.JFrame {
         model.setRowCount(0); // Clear existing rows
 
         for (Movie movie : movies) {
-            Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
+            Object[] row = { movie.getId(), movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
            
-            row[4] = movie.getId();
             model.addRow(row);
             
         }
 
         // Add a custom renderer for the "Buy" column to display a button
-        jTable1.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+        jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
 
         // Add a custom editor for the "Buy" column to handle button click
-        jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
+        jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        if (userController.buyPremium(this.user)) {
+            JOptionPane.showMessageDialog(rootPane, "Thank you for purchasing premium");
+            jLabel3.setText("Premium User");
+            user = userController.getUserById(user.getId());
+            jLabel2.setText("Wallet: " + user.getBalance());
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "You do not have enough money or you have premium!");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
     private void buyButtonClicked(int rowIndex) {
     if (rowIndex < 0 || rowIndex >= jTable1.getRowCount()) {
         JOptionPane.showMessageDialog(this, "Please select a valid movie.");
@@ -440,18 +483,17 @@ public class UserFrame extends javax.swing.JFrame {
         model.setRowCount(0); // Clear existing rows
 
         for (Movie movie : movies) {
-            Object[] row = { movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
+            Object[] row = { movie.getId(), movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Buy" };
            
-            row[4] = movie.getId();
             model.addRow(row);
             
         }
 
         // Add a custom renderer for the "Buy" column to display a button
-        jTable1.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+        jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
 
         // Add a custom editor for the "Buy" column to handle button click
-        jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
+        jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
     }
     /**
      * @param args the command line arguments
@@ -494,9 +536,11 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

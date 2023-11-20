@@ -9,6 +9,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,7 +24,7 @@ class ButtonEditor extends DefaultCellEditor {
     public ButtonEditor(JCheckBox checkBox, String label) {
         super(checkBox);
         this.label = label;
-        button = new JButton("Buy");
+        button = new JButton();
         button.setOpaque(true);
         button.addActionListener(e -> fireEditingStopped());
     }
@@ -36,6 +37,15 @@ class ButtonEditor extends DefaultCellEditor {
             button.setForeground(table.getForeground());
             button.setBackground(table.getBackground());
         }
+        
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        Object movieIdObject = model.getValueAt(row, 0);
+        if (movieIdObject instanceof Long) {
+            movieId = (Long) movieIdObject;
+        } else {
+            // Handle the case where movieId is not a Long
+        }
+                
         label = (value == null) ? "" : value.toString();
         button.setText(label);
         isPushed = true;
@@ -44,8 +54,7 @@ class ButtonEditor extends DefaultCellEditor {
 
     public Object getCellEditorValue() {
         if (isPushed) {
-            // Handle the button click
-            // You can implement your logic here
+            System.out.println(movieId);
         }
         isPushed = false;
         return label;

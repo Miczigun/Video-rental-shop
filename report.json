@@ -23,14 +23,14 @@
   "id" : 152,
   "username" : "adrian",
   "password" : "$2a$12$fVsbrVb5jAsPf4X/BtlEGOx9dc7lx33.jwQgqiQtcuskdgCPBICDq",
-  "premium" : false,
-  "balance" : 0.0,
+  "premium" : true,
+  "balance" : 40.0,
   "movies" : [ ]
 }, {
   "id" : 202,
   "username" : "michael",
   "password" : "$2a$12$reCv2dNjqu0lH3AfVolM5OEL09hHyfmT9fj4MlKbffv/WaBLGH0vK",
-  "premium" : false,
-  "balance" : 0.0,
+  "premium" : true,
+  "balance" : 40.0,
   "movies" : [ ]
 } ]
