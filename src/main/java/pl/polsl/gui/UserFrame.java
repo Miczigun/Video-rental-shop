@@ -123,9 +123,9 @@ import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import pl.polsl.controller.GenreController;
-import pl.polsl.controller.MovieController;
-import pl.polsl.controller.UserController;
+import pl.polsl.model.GenreDao;
+import pl.polsl.model.MovieDao;
+import pl.polsl.model.UserDao;
 import pl.polsl.model.Genre;
 import pl.polsl.model.Movie;
 import pl.polsl.model.User;
@@ -135,27 +135,27 @@ import pl.polsl.model.User;
  * @author Miczi
  */
 public class UserFrame extends javax.swing.JFrame {
-    private User user;
-    private MovieController movieController;
-    private UserController userController;
-    private GenreController genreController;
+    private long userId;
+    private MovieDao movieController;
+    private UserDao userController;
+    private GenreDao genreController;
     private MainFrame mainFrame;
     /**
      * Creates new form UserFrame
      */
-    public UserFrame(MainFrame mainFrame, User user) {
-        this.user = user;
+    public UserFrame(MainFrame mainFrame, long userId) {
+        this.userId = userId;
         this.mainFrame = mainFrame;
-        this.genreController = new GenreController();
-        this.movieController = new MovieController();
-        this.userController = new UserController();
+        this.genreController = new GenreDao();
+        this.movieController = new MovieDao();
+        this.userController = new UserDao();
         initComponents();
         displayMovies();
         setStatusUser();;
     }
     public UserFrame() {
-        this.movieController = new MovieController();
-        this.userController = new UserController();
+        this.movieController = new MovieDao();
+        this.userController = new UserDao();
         initComponents();
         displayMovies();
     }
@@ -213,7 +213,7 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(user.getUsername());
+        jLabel1.setText(userController.getUserById(userId).getUsername());
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jButton4.setText("Top up wallet");
@@ -225,7 +225,7 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Wallet: " + user.getBalance());
+        jLabel2.setText("Wallet: " + userController.getUserById(userId).getBalance());
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -352,6 +352,7 @@ public class UserFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
     
     public void setStatusUser(){
+        User user = userController.getUserById(userId);
         if(user.getPremium()){
             jLabel3.setText("Premium User");
         }
@@ -382,6 +383,7 @@ public class UserFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        User user = userController.getUserById(userId);
         List<Movie> userMovies = user.getMovies();
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -401,6 +403,7 @@ public class UserFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        User user = userController.getUserById(userId);
         String value = JOptionPane.showInputDialog("How much do you want to top up your account for?");
         if (value != null){
             try {
@@ -441,11 +444,12 @@ public class UserFrame extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
 
         // Add a custom editor for the "Buy" column to handle button click
-        jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
+        jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), userId));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        if (userController.buyPremium(this.user)) {
+        User user = userController.getUserById(userId);
+        if (userController.buyPremium(user)) {
             JOptionPane.showMessageDialog(rootPane, "Thank you for purchasing premium");
             jLabel3.setText("Premium User");
             user = userController.getUserById(user.getId());
@@ -454,31 +458,12 @@ public class UserFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "You do not have enough money or you have premium!");
         }
     }//GEN-LAST:event_jButton6ActionPerformed
-    private void buyButtonClicked(int rowIndex) {
-    if (rowIndex < 0 || rowIndex >= jTable1.getRowCount()) {
-        JOptionPane.showMessageDialog(this, "Please select a valid movie.");
-        return;
-    }
 
-    // Get the movie ID from the last column of the selected row
-    long movieId = (long) jTable1.getModel().getValueAt(rowIndex, 4); // Assuming 4 is the index of the hidden column
-
-    // Fetch the movie from the database based on the ID
-    Movie movie = movieController.getMovieById(movieId);
-
-    if (movie != null) {
-        // Buy the movie for the user using the UserController
-        userController.buyMovie(user, movie);
-        JOptionPane.showMessageDialog(this, "Movie purchased successfully!");
-    } else {
-        JOptionPane.showMessageDialog(this, "Movie not found.");
-    }
-}
     
     private void displayMovies() {
         // Fetch the list of movies from the database using movieController
         List<Movie> movies = movieController.getAllMovies();
-
+        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Clear existing rows
 
@@ -493,7 +478,7 @@ public class UserFrame extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
 
         // Add a custom editor for the "Buy" column to handle button click
-        jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
+        jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), userId));
     }
     /**
      * @param args the command line arguments

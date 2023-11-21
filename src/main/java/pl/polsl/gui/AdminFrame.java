@@ -5,19 +5,19 @@
 package pl.polsl.gui;
 
 import javax.swing.JOptionPane;
-import pl.polsl.controller.AdminController;
+import pl.polsl.model.AdminDao;
 
 /**
  *
  * @author Miczi
  */
 public class AdminFrame extends javax.swing.JFrame {
-    private AdminController adminController;
+    private AdminDao adminController;
     /**
      * Creates new form AdminFrame
      */
     public AdminFrame() {
-        this.adminController = new AdminController();
+        this.adminController = new AdminDao();
         initComponents();
     }
 

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pl.polsl.controller;
+package pl.polsl.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.EntityManager;
@@ -11,22 +11,20 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
-import pl.polsl.model.Movie;
-import pl.polsl.model.User;
 
 /**
  *
  * @author Michal Lajczak
  * @version 1.0
  */
-public class UserController {
+public class UserDao {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     
     /**
      * This constructor create connection with database and allows to create queries
      */
-    public UserController(){
+    public UserDao(){
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
     }
@@ -121,28 +119,33 @@ public class UserController {
      * @param user
      * @param movie 
      */
-    public void buyMovie(User user, Movie movie){
-        double discount = 1;
-        if(user.getPremium()){
-            discount = 0.7;
-        }
+    public boolean buyMovie(User user, long movieId){
+        MovieDao movieDao = new MovieDao();
+        Movie movie = movieDao.getMovieById(movieId);
+        double discount = user.getPremium() ? 0.7 : 1.0;
+        
         if (user.getBalance() >= (movie.getPrice() * discount)){
             try {
                 entityManager.getTransaction().begin();
 
                 user.setBalance(user.getBalance() - (movie.getPrice() * discount));
-                List<Movie> userMovies = user.getMovies();
-                userMovies.add(movie); 
-
+                user.getMovies().add(movie);
                 entityManager.merge(user);
+                
                 entityManager.getTransaction().commit();
+                System.out.println(user.getMovies());
+                entityManager.refresh(user);
+                System.out.println(user.getMovies());
+                return true;
             } catch (Exception e) {
                 if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 }
                 e.printStackTrace();
+                return false;
             }
         }
+        return false;
     }
     
     /**
@@ -174,5 +177,18 @@ public class UserController {
             return false;
         }
         
+    }
+    
+    public boolean findUserMovie(User user, long movieId){
+        try {
+            for (Movie movie : user.getMovies()) {
+                if (movie.getId() == movieId){
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

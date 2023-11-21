@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pl.polsl.controller;
+package pl.polsl.model;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -15,14 +15,14 @@ import pl.polsl.model.Movie;
  * @author Michal Lajczak
  * @version 1.0
  */
-public class MovieController {
+public class MovieDao {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     
     /**
      * This constructor create connection with database and allows to create queries
      */
-    public MovieController(){
+    public MovieDao(){
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
     }

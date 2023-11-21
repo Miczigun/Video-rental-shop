@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pl.polsl.controller;
+package pl.polsl.model;
 
+import pl.polsl.model.MovieDao;
+import pl.polsl.model.UserDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -16,13 +18,13 @@ import pl.polsl.model.User;
  *
  * @author Miczi
  */
-public class AdminController {
-    private UserController userController;
-    private MovieController movieController;
+public class AdminDao {
+    private UserDao userController;
+    private MovieDao movieController;
 
-    public AdminController() {
-        this.movieController = new MovieController();
-        this.userController = new UserController();
+    public AdminDao() {
+        this.movieController = new MovieDao();
+        this.userController = new UserDao();
     }
     
     public boolean generateReport(){

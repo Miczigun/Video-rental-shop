@@ -5,7 +5,7 @@
 package pl.polsl.gui;
 
 import javax.swing.JOptionPane;
-import pl.polsl.controller.UserController;
+import pl.polsl.model.UserDao;
 import pl.polsl.model.User;
 
 /**
@@ -14,7 +14,7 @@ import pl.polsl.model.User;
  * @version 1.0
  */
 public class MainFrame extends javax.swing.JFrame {
-    private UserController userController;
+    private UserDao userController;
     /**
      * Creates new form MainFrame
      */
@@ -204,7 +204,7 @@ public class MainFrame extends javax.swing.JFrame {
             // For example, you can open a new window to display available movies.
             // Replace the following line with your desired action.
             JOptionPane.showMessageDialog(this, "Login successful.");
-            openUserFrame(user);
+            openUserFrame(user.getId());
         } else {
             JOptionPane.showMessageDialog(this, "Login failed. Invalid username or password.");
         }
@@ -231,12 +231,12 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
     
-    public void setUserController(UserController userController) {
+    public void setUserController(UserDao userController) {
     this.userController = userController;
     }
     
-    private void openUserFrame(User user) {
-    UserFrame userFrame = new UserFrame(this, user);
+    private void openUserFrame(long userId) {
+    UserFrame userFrame = new UserFrame(this, userId);
     userFrame.setVisible(true);
     this.dispose(); // Close the login frame
 }

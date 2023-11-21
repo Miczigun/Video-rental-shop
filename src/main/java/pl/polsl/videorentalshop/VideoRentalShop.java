@@ -4,7 +4,7 @@
 
 package pl.polsl.videorentalshop;
 
-import pl.polsl.controller.UserController;
+import pl.polsl.model.UserDao;
 import pl.polsl.gui.MainFrame;
 
 /**
@@ -15,13 +15,13 @@ public class VideoRentalShop {
 
     public static void main(String[] args) {
         MainFrame mainFrame = new MainFrame();
-        UserController userController = new UserController();
-        mainFrame.setUserController(userController); // Pass the UserController to the MainFrame
+        UserDao userController = new UserDao();
+        mainFrame.setUserController(userController); // Pass the UserDao to the MainFrame
         mainFrame.setVisible(true);
     }
 //        GenreController gc = new GenreController();
 //        MovieController mc = new MovieController();
-//        UserController uc = new UserController();
+//        UserDao uc = new UserDao();
 //        User newUser = new User();
 //        Movie newMovie = new Movie();
 //        Genre drama = new Genre();

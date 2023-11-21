@@ -8,8 +8,11 @@ import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import pl.polsl.model.User;
+import pl.polsl.model.UserDao;
 
 /**
  *
@@ -19,11 +22,14 @@ class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
     private String label;
     private long movieId;
+    private long userId;
     private boolean isPushed;
-
-    public ButtonEditor(JCheckBox checkBox, String label) {
+    private UserDao userDao;
+    
+    public ButtonEditor(JCheckBox checkBox, long userId) {
         super(checkBox);
-        this.label = label;
+        this.userId = userId;
+        this.userDao = new UserDao();
         button = new JButton();
         button.setOpaque(true);
         button.addActionListener(e -> fireEditingStopped());
@@ -42,9 +48,7 @@ class ButtonEditor extends DefaultCellEditor {
         Object movieIdObject = model.getValueAt(row, 0);
         if (movieIdObject instanceof Long) {
             movieId = (Long) movieIdObject;
-        } else {
-            // Handle the case where movieId is not a Long
-        }
+        } 
                 
         label = (value == null) ? "" : value.toString();
         button.setText(label);
@@ -54,7 +58,9 @@ class ButtonEditor extends DefaultCellEditor {
 
     public Object getCellEditorValue() {
         if (isPushed) {
-            System.out.println(movieId);
+            if (label == "Buy") {
+                buyButtonClicked();
+            }
         }
         isPushed = false;
         return label;
@@ -67,5 +73,22 @@ class ButtonEditor extends DefaultCellEditor {
 
     protected void fireEditingStopped() {
         super.fireEditingStopped();
+    }
+    
+    public void buyButtonClicked(){
+        User user = userDao.getUserById(userId);
+        if (user == null) {
+            JOptionPane.showMessageDialog(editorComponent, "User does not exist");
+        }
+        if (userDao.findUserMovie(user, movieId)) {
+            JOptionPane.showMessageDialog(editorComponent, "You have that movie!");
+        } else {
+            if (userDao.buyMovie(user, movieId)){
+                JOptionPane.showMessageDialog(editorComponent, "Purchase completed");
+            } else {
+                JOptionPane.showMessageDialog(editorComponent, "You do not have enough money!");
+            }
+        }
+
     }
 }

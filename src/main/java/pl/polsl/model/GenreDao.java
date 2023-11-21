@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pl.polsl.controller;
+package pl.polsl.model;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -16,14 +16,14 @@ import pl.polsl.model.Genre;
  * @author Michal Lajczak
  * @version 1.0
  */
-public class GenreController {
+public class GenreDao {
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     
     /**
      * This constructor create connection with database and allows to create queries
      */
-    public GenreController(){
+    public GenreDao(){
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
     }
