@@ -397,9 +397,9 @@ public class UserFrame extends javax.swing.JFrame {
             model.addRow(row);
         }
         
-        //jTable1.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer("Delete"));
+        jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
         // Add a custom editor for the "Buy" column to handle button click
-        //jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Delete"));
+        jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), userId));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

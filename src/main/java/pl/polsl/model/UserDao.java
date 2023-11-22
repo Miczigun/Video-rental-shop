@@ -120,32 +120,32 @@ public class UserDao {
      * @param movie 
      */
     public boolean buyMovie(User user, long movieId){
-        MovieDao movieDao = new MovieDao();
-        Movie movie = movieDao.getMovieById(movieId);
+       
         double discount = user.getPremium() ? 0.7 : 1.0;
-        
-        if (user.getBalance() >= (movie.getPrice() * discount)){
-            try {
-                entityManager.getTransaction().begin();
-
-                user.setBalance(user.getBalance() - (movie.getPrice() * discount));
-                user.getMovies().add(movie);
-                entityManager.merge(user);
                 
-                entityManager.getTransaction().commit();
-                System.out.println(user.getMovies());
-                entityManager.refresh(user);
-                System.out.println(user.getMovies());
-                return true;
-            } catch (Exception e) {
-                if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-                }
-                e.printStackTrace();
+        try {
+            entityManager.getTransaction().begin();
+            
+            Movie movie = entityManager.find(Movie.class, movieId);
+            if (user.getBalance() < (movie.getPrice() * discount)) {
                 return false;
             }
-        }
-        return false;
+            user.setBalance(user.getBalance() - (movie.getPrice() * discount));
+            user.getMovies().add(movie);
+            entityManager.merge(user);
+
+            entityManager.getTransaction().commit();
+            System.out.println(user.getMovies());
+            entityManager.refresh(user);
+            System.out.println(user.getMovies());
+            return true;
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+            entityManager.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            return false;
+        }        
     }
     
     /**
@@ -188,6 +188,28 @@ public class UserDao {
             }
             return false;
         } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public boolean removeUserMovie(User user, long movieId){
+        try {
+            entityManager.getTransaction().begin();
+            
+            Movie movie = entityManager.find(Movie.class, movieId);
+            if (movie == null) {
+                return false;
+            }
+            user.getMovies().remove(movie);
+            entityManager.merge(user);
+            
+            entityManager.getTransaction().commit();;
+            return true;
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                return false;
+            }
             return false;
         }
     }

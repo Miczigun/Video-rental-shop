@@ -61,6 +61,9 @@ class ButtonEditor extends DefaultCellEditor {
             if (label == "Buy") {
                 buyButtonClicked();
             }
+            else if (label == "Delete") {
+                deleteButtonClicked();
+            }
         }
         isPushed = false;
         return label;
@@ -79,6 +82,7 @@ class ButtonEditor extends DefaultCellEditor {
         User user = userDao.getUserById(userId);
         if (user == null) {
             JOptionPane.showMessageDialog(editorComponent, "User does not exist");
+            return;
         }
         if (userDao.findUserMovie(user, movieId)) {
             JOptionPane.showMessageDialog(editorComponent, "You have that movie!");
@@ -91,4 +95,19 @@ class ButtonEditor extends DefaultCellEditor {
         }
 
     }
+    
+    public void deleteButtonClicked() {
+        User user = userDao.getUserById(userId);
+        if (user == null) {
+            JOptionPane.showMessageDialog(editorComponent, "User does not exist");
+            return;
+        }
+        if (userDao.removeUserMovie(user, movieId)){
+            JOptionPane.showMessageDialog(editorComponent, "Movie was deleted from your account");
+        } else {
+            JOptionPane.showMessageDialog(editorComponent, "You do not have that movie!");
+        }
+        
+    }
+    
 }
