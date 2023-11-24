@@ -19,35 +19,4 @@ public class VideoRentalShop {
         mainFrame.setUserController(userController); // Pass the UserDao to the MainFrame
         mainFrame.setVisible(true);
     }
-//        GenreController gc = new GenreController();
-//        MovieController mc = new MovieController();
-//        UserDao uc = new UserDao();
-//        User newUser = new User();
-//        Movie newMovie = new Movie();
-//        Genre drama = new Genre();
-        
-//        drama = gc.getGenre(5);
-//        newMovie.setTitle("Pulp Fiction");
-//        newMovie.setPrice(15);
-//        newMovie.setYear(1994);
-//        newMovie.setRating(8.9f);
-//        newMovie.setGenre(drama);
-        
-        //mc.addMovie(newMovie);
-//        List<Movie> movies = mc.getAllMovies();
-//        for (Movie movy : movies) {
-//            System.out.println(movy);
-//        }
-//        
-//        //uc.createUser("miczi", "miczi");
-//        newUser = uc.loginUser("miczi", "miczi");
-//        System.out.println(newUser);
-//        //uc.topUpTheAccount(newUser.getId(), 100);
-//        //uc.buyPremium(newUser);
-//        //uc.buyMovie(newUser, mc.getMovieById(452));
-//        for (Movie movy : newUser.getMovies()) {
-//            System.out.println("Tytuł");
-//            System.out.println(movy);
-//        }
-//    }
 }
