@@ -19,4 +19,5 @@ public class VideoRentalShop {
         mainFrame.setUserController(userController); // Pass the UserDao to the MainFrame
         mainFrame.setVisible(true);
     }
+    
 }

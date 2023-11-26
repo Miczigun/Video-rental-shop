@@ -10,10 +10,10 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 import pl.polsl.model.Movie;
 
-/**
+/** 
  *
  * @author Michal Lajczak
- * @version 1.0
+ * @version 1.2
  */
 public class MovieDao {
     private EntityManagerFactory entityManagerFactory;
@@ -28,8 +28,9 @@ public class MovieDao {
     }
     
     /**
-     * This method add movie to database
-     * @param movie 
+     * Adds a movie to the database.
+     *
+     * @param movie The movie to be added.
      */
     public void addMovie(Movie movie){
         try {
@@ -44,17 +45,19 @@ public class MovieDao {
         }
     }
     /**
-     * This method return movie by id
-     * @param id
-     * @return 
+     * Retrieves a movie by its ID.
+     *
+     * @param id The ID of the movie to be retrieved.
+     * @return The Movie object if found, otherwise null.
      */
     public Movie getMovieById(long id) {
         return entityManager.find(Movie.class,id);
     }
     
     /**
-     * This method delete movie from database, if movie exists
-     * @param id 
+     * Deletes a movie from the database, if it exists.
+     *
+     * @param id The ID of the movie to be deleted.
      */
     public void deleteMovie(long id) {
         try {
@@ -73,9 +76,10 @@ public class MovieDao {
     }
     
     /**
-     * This method update movie price and it is allow just for admin
-     * @param id
-     * @param price 
+     * Updates the price of a movie (allowed only for admin).
+     *
+     * @param id The ID of the movie to be updated.
+     * @param price The new price for the movie.
      */
     public void updateMoviePrice(long id, int price){
         try {
@@ -94,17 +98,19 @@ public class MovieDao {
     }
     
     /**
-     * This method return list of all movies
-     * @return 
+     * Retrieves a list of all movies in the database.
+     *
+     * @return List of Movie objects representing all movies in the database.
      */
     public List<Movie> getAllMovies() {
         return entityManager.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
     }
     
     /**
-     * This method return only movies from one genre
-     * @param genre_id
-     * @return 
+     * Retrieves a list of movies from a specific genre.
+     *
+     * @param genreName The name of the genre.
+     * @return List of Movie objects from the specified genre.
      */
     public List<Movie> getMoviesByGenre(String genreName){
         return entityManager.createQuery("SELECT m FROM Movie m WHERE m.genre.name = :genreName ", Movie.class).setParameter("genreName", genreName).getResultList();

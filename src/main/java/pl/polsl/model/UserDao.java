@@ -13,9 +13,10 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 /**
+ * Data Access Object (DAO) for managing User entities.
  *
  * @author Michal Lajczak
- * @version 1.0
+ * @version 1.2
  */
 public class UserDao {
     private EntityManagerFactory entityManagerFactory;
@@ -30,9 +31,10 @@ public class UserDao {
     }
     
     /**
-     * This method create user and add user to database
-     * @param username
-     * @param password 
+     * Creates a new user and adds them to the database.
+     *
+     * @param username The username of the new user.
+     * @param password The password of the new user (hashed automatically).
      */
     public void createUser(String username, String password) {
         try {
@@ -51,11 +53,13 @@ public class UserDao {
             e.printStackTrace();
         }   
     }
+    
     /**
-     * This method login user, if data are correct
-     * @param username
-     * @param password
-     * @return 
+     * Logs in a user if the provided credentials are correct.
+     *
+     * @param username The username of the user trying to log in.
+     * @param password The password of the user trying to log in.
+     * @return The User object if login is successful, otherwise null.
      */
     public User loginUser(String username, String password){
         try {
@@ -70,19 +74,32 @@ public class UserDao {
         }
         return null;
     }
+    
     /**
-     * This method find user by id
-     * @param id
-     * @return 
+     * Finds a user by their ID.
+     *
+     * @param id The ID of the user to be retrieved.
+     * @return The User object if found, otherwise null.
      */
     public User getUserById(long id){
         return entityManager.find(User.class, id);
     }
     
+    /**
+     * Retrieves a list of all users in the database.
+     *
+     * @return List of User objects representing all users in the database.
+     */    
     public List<User> getAllUsers(){
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
     
+    /**
+     * Finds a user by their username.
+     *
+     * @param name The username of the user to be retrieved.
+     * @return The User object if found, otherwise null.
+     */    
     public User getUserByName(String name){
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :name", User.class);
         query.setParameter("name", name);
@@ -95,9 +112,10 @@ public class UserDao {
     }
     
     /**
-     * This method allows to top up the account
-     * @param user_id
-     * @param money 
+     * Tops up the account balance for a user.
+     *
+     * @param user_id The ID of the user whose account is to be topped up.
+     * @param money The amount to be added to the user's balance.
      */
     public void topUpTheAccount(long user_id, int money){
         try {
@@ -115,9 +133,11 @@ public class UserDao {
     }
     
     /**
-     * This method allows to buy movie, if user has money on account
-     * @param user
-     * @param movie 
+     * Allows a user to buy a movie if they have sufficient funds.
+     *
+     * @param user The user attempting to buy the movie.
+     * @param movieId The ID of the movie to be purchased.
+     * @return True if the purchase is successful, otherwise false.
      */
     public boolean buyMovie(User user, long movieId){
        
@@ -149,9 +169,10 @@ public class UserDao {
     }
     
     /**
-     * This method allows to buy premium which gives 30% discount on movies
-     * @param user
-     * @return 
+     * Allows a user to buy premium, providing a 30% discount on movies.
+     *
+     * @param user The user attempting to buy premium.
+     * @return True if the purchase is successful, otherwise false.
      */
     public boolean buyPremium(User user){
         if(user.getPremium()){
@@ -179,6 +200,13 @@ public class UserDao {
         
     }
     
+    /**
+     * Checks if a user has a specific movie in their collection.
+     *
+     * @param user The user to check.
+     * @param movieId The ID of the movie to check for.
+     * @return True if the user has the movie, otherwise false.
+     */    
     public boolean findUserMovie(User user, long movieId){
         try {
             for (Movie movie : user.getMovies()) {
@@ -192,6 +220,13 @@ public class UserDao {
         }
     }
     
+    /**
+     * Removes a movie from a user's collection.
+     *
+     * @param user The user from whose collection the movie is to be removed.
+     * @param movieId The ID of the movie to be removed.
+     * @return True if the removal is successful, otherwise false.
+     */    
     public boolean removeUserMovie(User user, long movieId){
         try {
             entityManager.getTransaction().begin();
@@ -212,5 +247,29 @@ public class UserDao {
             }
             return false;
         }
+    }
+    
+    /**
+     * Deletes a user from the database by their ID.
+     *
+     * @param userId The ID of the user to be deleted.
+     */    
+    public void deleteUser(long userId){
+        try {
+            entityManager.getTransaction().begin();
+            
+            User user = entityManager.find(User.class, userId);
+            if (user != null) {
+                entityManager.remove(user);
+            }
+            
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+        e.printStackTrace();
+        }
+        
     }
 }
