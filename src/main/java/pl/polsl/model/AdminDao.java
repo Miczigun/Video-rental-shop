@@ -4,44 +4,67 @@
  */
 package pl.polsl.model;
 
-import pl.polsl.model.MovieDao;
-import pl.polsl.model.UserDao;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import pl.polsl.model.User;
 
 /**
- *
- * @author Miczi
+ * Represents a data access object for administrative operations.
+ * It provides functionality to generate a report in JSON format.
+ * 
+ * @author Michal Lajczak
+ * @version 1.2
  */
 public class AdminDao {
+
+    /**
+     * The controller for managing user-related operations.
+     */
     private UserDao userController;
+
+    /**
+     * The controller for managing movie-related operations.
+     */
     private MovieDao movieController;
 
+    /**
+     * Constructs an instance of AdminDao with default controllers.
+     */
     public AdminDao() {
         this.movieController = new MovieDao();
         this.userController = new UserDao();
     }
-    
-    public boolean generateReport(){
+
+    /**
+     * Generates a report in JSON format containing information about all users.
+     * 
+     * @return True if the report is successfully generated, false otherwise.
+     */
+    public boolean generateReport() {
         try {            
-        List<User> users = userController.getAllUsers();
+            // Retrieve the list of all users
+            List<User> users = userController.getAllUsers();
         
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            // Create an ObjectMapper with indentation for better readability
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         
-        //String jsonString = objectMapper.writeValueAsString(users);
+            // Uncomment the following line if you want to generate a JSON string instead of a file
+            // String jsonString = objectMapper.writeValueAsString(users);
         
-        File file = new File("report.json");
-        objectMapper.writeValue(file, users);
-        return true;
+            // Specify the file to store the generated report
+            File file = new File("report.json");
+            
+            // Write the user information to the specified file in JSON format
+            objectMapper.writeValue(file, users);
+            
+            return true;
         } catch (IOException e) {
+            // Return false if an IOException occurs during the process
             return false;
         }
     }
-    
 }
+

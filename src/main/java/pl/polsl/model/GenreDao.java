@@ -9,44 +9,57 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import java.util.List;
 import java.util.stream.Collectors;
-import pl.polsl.model.Genre;
 
 /**
- *
+ * Data Access Object (DAO) for managing Genre entities and performing database operations.
+ * It provides methods to retrieve Genre objects by ID and retrieve a list of genre names.
+ * 
  * @author Michal Lajczak
- * @version 1.0
+ * @version 1.2
  */
 public class GenreDao {
-    private EntityManagerFactory entityManagerFactory;
-    private EntityManager entityManager;
-    
+
     /**
-     * This constructor create connection with database and allows to create queries
+     * The EntityManagerFactory used to create an EntityManager.
      */
-    public GenreDao(){
+    private EntityManagerFactory entityManagerFactory;
+
+    /**
+     * The EntityManager used to perform database operations.
+     */
+    private EntityManager entityManager;
+
+    /**
+     * Constructs a GenreDao and establishes a connection with the database.
+     */
+    public GenreDao() {
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
     }
-    
+
     /**
-     * This method find genre by id and return Genre object
-     * @param id
-     * @return 
+     * Retrieves a Genre object from the database based on the given ID.
+     * 
+     * @param id The unique identifier of the genre.
+     * @return The Genre object if found, otherwise null.
      */
-    public Genre getGenre(int id){
+    public Genre getGenre(int id) {
         return entityManager.find(Genre.class, id);
     }
-    
+
     /**
-     * This method return list of genres names
-     * @return 
+     * Retrieves a list of genre names from the database.
+     * 
+     * @return A list of genre names.
      */
-    public List<String> getGenres(){
-        List<Genre> genres =  entityManager.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
-        
+    public List<String> getGenres() {
+        // Execute a query to retrieve all Genre entities from the database
+        List<Genre> genres = entityManager.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
+
+        // Map the list of Genre entities to a list of genre names using Java streams
         List<String> genresNames = genres.stream().map(Genre::getName).collect(Collectors.toList());
-        
+
         return genresNames;
-                                            
     }
 }
+

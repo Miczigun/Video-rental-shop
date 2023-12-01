@@ -9,9 +9,11 @@ import pl.polsl.model.UserDao;
 import pl.polsl.model.User;
 
 /**
- *
- * @author Miczi
- * @version 1.0
+ * The main frame for the Video Rental Shop application. Handles user login and registration.
+ * Extends javax.swing.JFrame.
+ * 
+ * @author Michal Lajczak
+ * @version 1.2
  */
 public class MainFrame extends javax.swing.JFrame {
     private UserDao userController;
@@ -193,7 +195,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Action performed when the "Sign in" button is clicked.
+     * Attempts to log in the user using the entered username and password.
+     * Displays appropriate messages based on the success or failure of the login attempt.
+     * 
+     * @param evt The ActionEvent representing the button click.
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = jTextField1.getText();
         String password = new String(jPasswordField3.getPassword());
@@ -213,7 +221,13 @@ public class MainFrame extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-
+   /**
+     * Action performed when the "Sign Up" button is clicked.
+     * Registers a new user using the entered username and password.
+     * Displays appropriate messages based on the success or failure of the registration attempt.
+     * 
+     * @param evt The ActionEvent representing the button click.
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String username = jTextField3.getText();
         String password1 = new String(jPasswordField1.getPassword());
@@ -230,11 +244,20 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "That username is taken!");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-    
+    /**
+     * Sets the user controller for this MainFrame.
+     * 
+     * @param userController The UserDao instance to be set.
+     */
     public void setUserController(UserDao userController) {
     this.userController = userController;
     }
     
+    /**
+     * Opens the UserFrame with the given user ID.
+     * 
+     * @param userId The ID of the user to be opened in the UserFrame.
+     */  
     private void openUserFrame(long userId) {
     UserFrame userFrame = new UserFrame(this, userId);
     userFrame.setVisible(true);

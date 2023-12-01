@@ -12,31 +12,56 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
-import lombok.Getter;
 
 /**
- *
+ * Represents a movie entity with various attributes.
+ * 
  * @author Michal Lajczak
- * @version 1.0
+ * @version 1.2
  */
 @Data
 @Entity
 public class Movie {
+
+    /**
+     * The unique identifier for the movie.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    /**
+     * The title of the movie.
+     */
     private String title;
+
+    /**
+     * The price of the movie.
+     */
     private int price;
+
+    /**
+     * The rating of the movie.
+     */
     private float rating;
+
+    /**
+     * The release year of the movie.
+     */
     @Column(columnDefinition = "YEAR")
     private int year;
+
+    /**
+     * The genre of the movie.
+     */
     @ManyToOne
-    @JoinColumn(name = "genre")
+    @JoinColumn(name = "genre_id")
     private Genre genre;
     
     /**
-     * This method return just genre name, because genre id is unnecessary
-     * @return 
+     * Retrieves the name of the genre associated with the movie.
+     * 
+     * @return The name of the genre.
      */
     public String getGenre(){
         return genre.getName();

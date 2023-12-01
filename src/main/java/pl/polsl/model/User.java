@@ -12,42 +12,68 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Data;
 
 /**
- *
+ * Represents a user entity with various attributes.
+ * 
  * @author Michal Lajczak
- * @version 1.0
+ * @version 1.2
  */
 @Data
 @Entity
 public class User {
+
+    /**
+     * The unique identifier for the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
+
+    /**
+     * The username of the user.
+     */
     private String username;
+
+    /**
+     * The hashed password of the user, using the Bcrypt function.
+     */
     private String password;  
+
+    /**
+     * Indicates whether the user has a premium account.
+     */
     private boolean premium = false;
+
+    /**
+     * The balance in the user's account.
+     */
     private double balance;
-    
+
+    /**
+     * The list of movies associated with the user, indicating their preferences.
+     */
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     private List<Movie> movies;
-    
+
     /**
-     * Set password using Bcrypt function
-     * @param password 
+     * Sets the password using the Bcrypt hashing function.
+     * 
+     * @param password The plain text password to be hashed.
      */
     public void setPassword(String password){
         this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());    
     }
+
     /**
-     * This method return 'premium' variable and if return value is true, user has premium
-     * @return 
+     * Retrieves the premium status of the user.
+     * 
+     * @return True if the user has a premium account, false otherwise.
      */
     public boolean getPremium(){
         return this.premium;
     }
 }
+

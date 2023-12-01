@@ -1,124 +1,8 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/    @Override
-    public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Iterator<String> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Object[] toArray() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean add(String e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends String> c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends String> c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String get(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String set(int index, String element) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void add(int index, String element) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String remove(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ListIterator<String> listIterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ListIterator<String> listIterator(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<String> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package pl.polsl.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -126,13 +10,18 @@ import javax.swing.table.DefaultTableModel;
 import pl.polsl.model.GenreDao;
 import pl.polsl.model.MovieDao;
 import pl.polsl.model.UserDao;
-import pl.polsl.model.Genre;
 import pl.polsl.model.Movie;
 import pl.polsl.model.User;
 
 /**
+ * The UserFrame class represents the main user interface for interacting with the movie database.
+ * Users can view, purchase, and manage movies based on their preferences and account status.
+ * The frame includes options for viewing all movies, user-specific movies, filtering by genre,
+ * purchasing premium access, topping up the wallet, and logging out. It also displays the user's
+ * current status (Standard or Premium) and wallet balance.
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.2
  */
 public class UserFrame extends javax.swing.JFrame {
     private long userId;
@@ -345,12 +234,17 @@ public class UserFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+    /**
+     * Event handler for the "Sign Up" button.
+     * Shows the main frame and disposes of the current frame.
+     */    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         mainFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
-    
+     /**
+     * Sets the user status label based on whether the user is premium or standard.
+     */   
     public void setStatusUser(){
         User user = userController.getUserById(userId);
         if(user.getPremium()){
@@ -360,6 +254,10 @@ public class UserFrame extends javax.swing.JFrame {
             jLabel3.setText("Standard User");
         }
     }
+    /**
+     * Event handler for the "Sign In" button.
+     * Fetches the list of movies from the database and populates the table.
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Fetch the list of movies from the database using movieController
         List<Movie> movies = movieController.getAllMovies();
@@ -381,7 +279,10 @@ public class UserFrame extends javax.swing.JFrame {
         // Add a custom editor for the "Buy" column to handle button click
         //jTable1.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), "Buy"));
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    /**
+     * Event handler for the "Show My Movies" button.
+     * Fetches the list of movies owned by the user and populates the table.
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         User user = userController.getUserById(userId);
         List<Movie> userMovies = user.getMovies();
@@ -401,7 +302,10 @@ public class UserFrame extends javax.swing.JFrame {
         // Add a custom editor for the "Buy" column to handle button click
         jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), userId));
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    /**
+     * Event handler for the "Top Up Account" button.
+     * Allows the user to top up their account balance.
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         User user = userController.getUserById(userId);
         String value = JOptionPane.showInputDialog("How much do you want to top up your account for?");
@@ -421,7 +325,10 @@ public class UserFrame extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    /**
+     * Event handler for the "Filter by Genre" button.
+     * Fetches movies by the selected genre and populates the table.
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         List<Movie> movies = movieController.getMoviesByGenre(jComboBox1.getSelectedItem().toString());
         
@@ -446,7 +353,10 @@ public class UserFrame extends javax.swing.JFrame {
         // Add a custom editor for the "Buy" column to handle button click
         jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), userId));
     }//GEN-LAST:event_jButton5ActionPerformed
-
+    /**
+     * Event handler for the "Purchase Premium" button.
+     * Allows the user to buy premium status.
+     */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         User user = userController.getUserById(userId);
         if (userController.buyPremium(user)) {
@@ -459,7 +369,9 @@ public class UserFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    
+    /**
+     * Displays all movies in the table.
+     */    
     private void displayMovies() {
         // Fetch the list of movies from the database using movieController
         List<Movie> movies = movieController.getAllMovies();

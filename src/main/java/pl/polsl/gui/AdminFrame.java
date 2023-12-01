@@ -9,7 +9,8 @@ import pl.polsl.model.AdminDao;
 
 /**
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.2
  */
 public class AdminFrame extends javax.swing.JFrame {
     private AdminDao adminController;
@@ -106,13 +107,16 @@ public class AdminFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Handles the action when the "Generate report" button is clicked.
+     * Attempts to generate a report using the AdminDao and displays a message accordingly.
+     * 
+     * @param evt The ActionEvent representing the button click event.
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(adminController.generateReport()){
-            JOptionPane.showMessageDialog(rootPane, "The report was generated correctly");
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Report cannot be generated!");
-        }
+        String message = adminController.generateReport() ? "The report was generated correctly" : "Report cannot be generated!";
+        JOptionPane.showMessageDialog(rootPane, message);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
