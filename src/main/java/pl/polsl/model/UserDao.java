@@ -153,11 +153,8 @@ public class UserDao {
             user.setBalance(user.getBalance() - (movie.getPrice() * discount));
             user.getMovies().add(movie);
             entityManager.merge(user);
-
+            entityManager.flush();
             entityManager.getTransaction().commit();
-            System.out.println(user.getMovies());
-            entityManager.refresh(user);
-            System.out.println(user.getMovies());
             return true;
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {

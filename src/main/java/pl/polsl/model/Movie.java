@@ -55,7 +55,7 @@ public class Movie {
      * The genre of the movie.
      */
     @ManyToOne
-    @JoinColumn(name = "genre_id")
+    @JoinColumn(name = "genre")
     private Genre genre;
     
     /**
