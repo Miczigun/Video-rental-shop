@@ -60,6 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setText("Password");
 
         jButton1.setText("Sign in");
+        jButton1.setToolTipText("Click to sign in");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -114,6 +115,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jButton3.setText("Sign Up");
+        jButton3.setToolTipText("Click to sign up");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -212,7 +214,11 @@ public class MainFrame extends javax.swing.JFrame {
             // For example, you can open a new window to display available movies.
             // Replace the following line with your desired action.
             JOptionPane.showMessageDialog(this, "Login successful.");
-            openUserFrame(user.getId());
+            if (user.isAdmin()){
+                openAdminFrame(user.getId());
+            } else {
+                openUserFrame(user.getId());
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Login failed. Invalid username or password.");
         }
@@ -263,6 +269,11 @@ public class MainFrame extends javax.swing.JFrame {
     userFrame.setVisible(true);
     this.dispose(); // Close the login frame
 }
+    private void openAdminFrame(long userId){
+        AdminFrame adminFrame = new AdminFrame(this,userId);
+        adminFrame.setVisible(true);
+        this.dispose();
+    }
     
     /**
      * @param args the command line arguments

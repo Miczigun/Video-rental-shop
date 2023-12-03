@@ -6,7 +6,6 @@ package pl.polsl.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
 import lombok.Data;
 
 /**
@@ -23,7 +22,6 @@ public class Genre {
      * The unique identifier for the genre.
      */
     @Id
-    @GeneratedValue
     private int id;
 
     /**

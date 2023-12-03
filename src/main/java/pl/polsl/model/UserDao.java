@@ -151,8 +151,9 @@ public class UserDao {
                 return false;
             }
             user.setBalance(user.getBalance() - (movie.getPrice() * discount));
-            user.getMovies().add(movie);
-            entityManager.merge(user);
+            
+            user.addMovie(movie);
+            entityManager.persist(user);
             entityManager.flush();
             entityManager.getTransaction().commit();
             return true;
@@ -232,7 +233,7 @@ public class UserDao {
             if (movie == null) {
                 return false;
             }
-            user.getMovies().remove(movie);
+            user.deleteMovie(movie);
             entityManager.merge(user);
             
             entityManager.getTransaction().commit();;
@@ -269,4 +270,12 @@ public class UserDao {
         }
         
     }
+    
+    public List<Movie> userMovies(long userId){
+        List<Movie> userMovies = entityManager.createQuery("SELECT m FROM Movie m JOIN m.users u WHERE u.id = :userId", Movie.class)
+                                      .setParameter("userId", userId)
+                                      .getResultList();
+        return userMovies;
+    }
+    
 }

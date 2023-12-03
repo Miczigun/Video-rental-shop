@@ -115,20 +115,22 @@ class ButtonEditor extends DefaultCellEditor {
      * Attempts to buy a movie and displays a message accordingly.
      */
     public void buyButtonClicked(){
+        String message;
         User user = userDao.getUserById(userId);
         if (user == null) {
             JOptionPane.showMessageDialog(editorComponent, "User does not exist");
             return;
         }
         if (userDao.findUserMovie(user, movieId)) {
-            JOptionPane.showMessageDialog(editorComponent, "You have that movie!");
+            message = "You have that movie!";
         } else {
             if (userDao.buyMovie(user, movieId)){
-                JOptionPane.showMessageDialog(editorComponent, "Purchase completed");
+                message = "Purchase completed";
             } else {
-                JOptionPane.showMessageDialog(editorComponent, "You do not have enough money!");
+                message = "You do not have enough money!";
             }
         }
+        JOptionPane.showMessageDialog(editorComponent, message);
     }
     
     /**
@@ -136,15 +138,13 @@ class ButtonEditor extends DefaultCellEditor {
      * Attempts to delete a movie from the user's account and displays a message accordingly.
      */
     public void deleteButtonClicked() {
+        String message;
         User user = userDao.getUserById(userId);
         if (user == null) {
             JOptionPane.showMessageDialog(editorComponent, "User does not exist");
             return;
         }
-        if (userDao.removeUserMovie(user, movieId)){
-            JOptionPane.showMessageDialog(editorComponent, "Movie was deleted from your account");
-        } else {
-            JOptionPane.showMessageDialog(editorComponent, "You do not have that movie!");
-        }
+        message = userDao.removeUserMovie(user, movieId) ? "Movie was deleted from your account" : "You do not have that movie!";
+        JOptionPane.showMessageDialog(editorComponent, message);
     }
 }

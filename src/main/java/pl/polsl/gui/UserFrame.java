@@ -284,22 +284,17 @@ public class UserFrame extends javax.swing.JFrame {
      * Fetches the list of movies owned by the user and populates the table.
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        User user = userController.getUserById(userId);
-        List<Movie> userMovies = user.getMovies();
-        System.out.print(userMovies);
+        List<Movie> userMovies = userController.userMovies(userId);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Clear existing rows
         
         for (Movie movie : userMovies) {
             Object[] row = { movie.getId(), movie.getTitle(), movie.getGenre(), movie.getYear(), movie.getPrice(), "Delete" };
             
-            // Set the movie ID as a hidden value in the last column (index 4)
-             // Assuming getId() retrieves the movie ID
             model.addRow(row);
         }
-        model.fireTableDataChanged();
+        
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-        // Add a custom editor for the "Buy" column to handle button click
         jTable1.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), userId));
     }//GEN-LAST:event_jButton2ActionPerformed
     /**
