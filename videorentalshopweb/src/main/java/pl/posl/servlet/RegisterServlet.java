@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package polsl.pl.servlet;
+package pl.posl.servlet;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,16 +12,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import pl.polsl.model.MovieDao;
 
 /**
  *
  * @author Miczi
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
-    
-    private MovieDao movieDao = new MovieDao();
+@WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
+public class RegisterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,11 +37,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet RegisterServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.print(movieDao.getAllMovies());
+            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +58,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -75,7 +73,23 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String error;
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String cpassword = request.getParameter("cpassword");
+        
+        if (username.isEmpty() || username == null){
+            error = "Username can not be empty!";
+        }
+        if (password.length() < 8){
+            error = "Password must have atleast 8 characters!";
+        }
+        if (password != cpassword){
+            error = "Password and Confirm Password does not match!";
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
