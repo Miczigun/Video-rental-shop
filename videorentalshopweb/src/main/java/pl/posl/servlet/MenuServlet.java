@@ -12,9 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import pl.polsl.model.ModelLogic;
-import pl.polsl.model.Movie;
 
 /**
  *
@@ -62,8 +60,7 @@ public class MenuServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        ModelLogic modelLogic = new ModelLogic();
-        List<Movie> movies = modelLogic.getMovies();
+        ModelLogic modelLogic = ModelLogic.getInstance();
         request.setAttribute("movies", modelLogic.getMovies());
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/menu.jsp");

@@ -35,6 +35,7 @@
                     <input type="password" id="cpassword" name="cpassword" class="form-control"/>
                 </div>
                 <input type="submit" value="Sign up" class="btn btn-primary"/>
+                 <p class="mt-3">Do you have an account? <a href="/videorentalshopweb/login">Sign in</a></p>
             </form>
         </div>
     </body>

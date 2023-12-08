@@ -19,14 +19,9 @@ public class User {
     private String username;
     private String password;
     private List<Movie> userMovies;
-    private int money;
+    private int money = 0;
     private boolean premium = false;
-    
-    public User(String username, String password){
-        this.username = username;
-        this.password = password;
-    }
-    
+       
     
     public void setPassword(String password){
         this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray()); 

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import pl.polsl.model.ModelLogic;
 
 /**
  *
@@ -74,22 +75,22 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String error;
+        ModelLogic modelLogic = ModelLogic.getInstance();
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String cpassword = request.getParameter("cpassword");
         
-        if (username.isEmpty() || username == null){
-            error = "Username can not be empty!";
+        String status = modelLogic.createUser(username, password, cpassword);
+        String redirect = status == "Success" ? "/views/login.jsp" : "/views/register.jsp";
+        
+        if (status.equals("Success")) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else {
+            request.setAttribute("error", status);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
+            dispatcher.forward(request, response);
         }
-        if (password.length() < 8){
-            error = "Password must have atleast 8 characters!";
-        }
-        if (password != cpassword){
-            error = "Password and Confirm Password does not match!";
-        }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
-        dispatcher.forward(request, response);
     }
 
     /**

@@ -7,6 +7,7 @@ package pl.posl.servlet;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -74,7 +75,27 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CookiesAccess</title>");
+            out.println("</head>");
+            out.println("<body>");
+            Cookie[] cookies = request.getCookies();
+            Cookie newCookie = new Cookie("user", request.getParameter("username"));
+            response.addCookie(newCookie);
+            for (Cookie cookie : cookies) {
+                out.println("<p>" + cookie.getName()+ "</p>");
+                out.println("<p>" + cookie.getDomain()+ "</p>");
+                out.println("<p>" + cookie.getPath()+ "</p>");
+                out.println("<p>" + cookie.getValue()+ "</p>");
+                out.print("<hr>");
+            }         
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     /**

@@ -4,12 +4,14 @@
  */
 package pl.polsl.model;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +23,17 @@ import lombok.Setter;
 @Setter
 public class ModelLogic {
     
-    private List<Movie> movies = new ArrayList<Movie>();
-    private List<User> users;
+    private static final ModelLogic instance = new ModelLogic();
     
-    public ModelLogic(){
+    private List<Movie> movies = new ArrayList<Movie>();
+    private List<User> users = new ArrayList<User>();
+    
+    private ModelLogic(){
         loadMovies();
+    }
+    
+    public static ModelLogic getInstance(){
+        return instance;
     }
     
     public void loadMovies(){
@@ -41,7 +49,49 @@ public class ModelLogic {
         }
     }
     
-    public List<Movie> getMovies(){
-        return movies;
+    public String createUser(String username, String password, String cpassword){
+        if (username.isEmpty() || username == null) {
+            return "Username field can not be empty!";
+        }
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return "That username is taken";
+            }
+        }
+        if (password.length() < 8) {
+            return "Password must have atleast 8 characters";
+        }
+        if (!cpassword.equals(password)){
+            return "Password and Confirm Password does not match!";
+        }
+        
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        users.add(newUser);
+        
+        return "Success";
+    }
+    
+    public String loginUser(String username, String password){
+        for (User user : users) {
+            if (user.getUsername().equals(username)){
+                String hashPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+                if (user.getPassword().equals(hashPassword)){
+                    return username;
+                } else {
+                    return "Invalid Password";
+                }                
+            }
+        }
+        return "User does not exist!";
+    }
+    
+    public User findUserByName(String username) {
+        Optional<User> userOptional = users.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst();
+
+        return userOptional.orElse(null);
     }
 }

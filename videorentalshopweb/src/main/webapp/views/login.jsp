@@ -26,6 +26,7 @@
                 </div>
                 <input type="submit" value="Sign in" class="btn btn-primary"/>
             </form>
+            <p class="mt-3">Do not have an account? <a href="/videorentalshopweb/register">Sign up</a></p>
         </div>
     </body>
 </html>
