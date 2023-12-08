@@ -82,7 +82,6 @@ public class RegisterServlet extends HttpServlet {
         String cpassword = request.getParameter("cpassword");
         
         String status = modelLogic.createUser(username, password, cpassword);
-        String redirect = status == "Success" ? "/views/login.jsp" : "/views/register.jsp";
         
         if (status.equals("Success")) {
             response.sendRedirect(request.getContextPath() + "/login");

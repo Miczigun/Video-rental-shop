@@ -74,13 +74,18 @@ public class ModelLogic {
     }
     
     public String loginUser(String username, String password){
+        if (username.isEmpty()){
+            return "Enter username!";
+        }
+        if (password.isEmpty()){
+            return "Enter password!";
+        }
         for (User user : users) {
-            if (user.getUsername().equals(username)){
-                String hashPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-                if (user.getPassword().equals(hashPassword)){
+            if (user.getUsername().equals(username)){               
+                if (BCrypt.verifyer().verify(password.toCharArray(), user.getPassword()).verified){
                     return username;
                 } else {
-                    return "Invalid Password";
+                    return "Invalid password!";
                 }                
             }
         }

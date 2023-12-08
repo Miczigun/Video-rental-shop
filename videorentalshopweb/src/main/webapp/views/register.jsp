@@ -13,9 +13,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Register Page</title>
         <script>
-            let = "${error}";
-            if (let != ""){
-                alert(let);
+            let message = "${error}";
+            if (message != ""){
+                alert(message);
             }
         </script>
     </head>

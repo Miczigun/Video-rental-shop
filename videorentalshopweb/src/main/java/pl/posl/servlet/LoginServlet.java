@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import pl.polsl.model.ModelLogic;
 
 
 /**
@@ -21,7 +22,8 @@ import java.io.PrintWriter;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
-
+    
+    private ModelLogic modelLogic = ModelLogic.getInstance();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -75,27 +77,23 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CookiesAccess</title>");
-            out.println("</head>");
-            out.println("<body>");
-            Cookie[] cookies = request.getCookies();
-            Cookie newCookie = new Cookie("user", request.getParameter("username"));
-            response.addCookie(newCookie);
-            for (Cookie cookie : cookies) {
-                out.println("<p>" + cookie.getName()+ "</p>");
-                out.println("<p>" + cookie.getDomain()+ "</p>");
-                out.println("<p>" + cookie.getPath()+ "</p>");
-                out.println("<p>" + cookie.getValue()+ "</p>");
-                out.print("<hr>");
-            }         
-            out.println("</body>");
-            out.println("</html>");
+               
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String userOrStatus = modelLogic.loginUser(username, password);
+        
+        if (userOrStatus.equals(username)){
+            Cookie userCookie = new Cookie("user", username);
+            userCookie.setMaxAge(3600);
+            response.addCookie(userCookie);
+            response.sendRedirect(request.getContextPath() + "/menu");
+        } else {
+            request.setAttribute("error", userOrStatus);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/login.jsp");
+            dispatcher.forward(request, response);
         }
+        
+        
     }
 
     /**
