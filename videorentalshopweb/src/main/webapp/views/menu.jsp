@@ -16,7 +16,13 @@
         <title>Menu Page</title>
     </head>
     <body>
-        <div class="container">
+        <nav class="navbar navbar-dark" style="background-color: #008080;">
+            <div class="container-fluid d-flex justify-content-end">
+                
+                <a class="navbar-link" href="/videorentalshopweb/login">Logout</a>
+            </div>
+        </nav>
+        <div class="container mt-3">
             <table class="table table-bordered">
                   <thead>
                     <tr>

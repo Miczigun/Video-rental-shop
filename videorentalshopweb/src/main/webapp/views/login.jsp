@@ -17,7 +17,7 @@
             if (message != ""){
                 alert(message)
             }
-        </script>>
+        </script>
     </head>
     <body>
         <div class="container text-center w-25 mt-3">
