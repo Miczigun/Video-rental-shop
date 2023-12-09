@@ -99,4 +99,17 @@ public class ModelLogic {
 
         return userOptional.orElse(null);
     }
+    
+    public String buyPremium(User user){
+        if (user.isPremium()){
+            return "You are premium user!";
+        }
+        if (user.getMoney() < 50){
+            return "You do not have enough money to buy premium";
+        }
+        int userMoney = user.getMoney();
+        userMoney -= 50;
+        user.setMoney(userMoney);
+        return "You are premium user now!";
+    }
 }

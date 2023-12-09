@@ -20,8 +20,8 @@ import pl.polsl.model.User;
  *
  * @author Miczi
  */
-@WebServlet(name = "MenuServlet", urlPatterns = {"/menu"})
-public class MenuServlet extends HttpServlet {
+@WebServlet(name = "ProfileServlet", urlPatterns = {"/user"})
+public class ProfileServlet extends HttpServlet {
     
     private ModelLogic modelLogic = ModelLogic.getInstance();
     /**
@@ -41,10 +41,10 @@ public class MenuServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MenuServlet</title>");            
+            out.println("<title>Servlet ProfileServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MenuServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,22 +65,23 @@ public class MenuServlet extends HttpServlet {
         
         Cookie[] cookies = request.getCookies();
         Cookie newCookie = new Cookie("user", null);
+        
         for (Cookie cookie : cookies){
             if (cookie.getName().equals("user")){
                 newCookie = cookie;
             }
         }
+        
         if (newCookie.getValue() == null || newCookie.getValue() == ""){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             User user = modelLogic.findUserByName(newCookie.getValue());
             request.setAttribute("user", user);
-            request.setAttribute("movies", modelLogic.getMovies());
+            request.setAttribute("movies", user.getUserMovies());
         
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/menu.jsp");       
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user.jsp");       
             dispatcher.forward(request, response);
         }
-        
 
     }
 
@@ -95,27 +96,7 @@ public class MenuServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        Cookie[] cookies = request.getCookies();
-        Cookie newCookie = new Cookie("user", null);
-        for (Cookie cookie : cookies){
-            if (cookie.getName().equals("user")){
-                newCookie = cookie;
-            }
-        }
-        if (newCookie.getValue() == null || newCookie.getValue() == ""){
-            response.sendRedirect(request.getContextPath() + "/login");
-        } else {
-            User user = modelLogic.findUserByName(newCookie.getValue());
-            String status = modelLogic.buyPremium(user);
-            
-            request.setAttribute("user", user);
-            request.setAttribute("movies", modelLogic.getMovies());
-            request.setAttribute("status", status);
-       
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/menu.jsp");       
-            dispatcher.forward(request, response);
-        }
+
     }
 
     /**
