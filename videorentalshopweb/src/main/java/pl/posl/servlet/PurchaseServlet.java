@@ -4,27 +4,29 @@
  */
 package pl.posl.servlet;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import pl.polsl.model.ModelLogic;
+import pl.polsl.model.Movie;
+import pl.polsl.model.User;
 
 /**
- * Servlet implementation for handling user registration in the video rental shop application.
+ * Servlet implementation for handling movie purchase in the video rental shop application.
  *
- * This servlet provides functionality for users to register an account, including processing
- * registration requests, validating user input, and interacting with the central logic instance
- * {@link pl.polsl.model.ModelLogic} to create new user accounts.
+ * This servlet handles user requests related to purchasing movies, such as processing purchase requests,
+ * updating user and movie data, and redirecting users to the appropriate views based on the purchase result.
  *
  * @author Michal Lajczak
  * @version 1.4
  */
-@WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
-public class RegisterServlet extends HttpServlet {
+@WebServlet(name = "PurchaseServlet", urlPatterns = {"/buy"})
+public class PurchaseServlet extends HttpServlet {
     
     /**
     * The central logic instance for managing user and movie data in the video rental shop.
@@ -32,8 +34,8 @@ public class RegisterServlet extends HttpServlet {
     * This variable holds the singleton instance of {@link pl.polsl.model.ModelLogic},
     * which is used throughout the application to access and manipulate user and movie data.
     */
-    private ModelLogic modelLogic = ModelLogic.getInstance();
-    
+    private ModelLogic modelLogic = ModelLogic.getInstance();    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -46,8 +48,31 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
-        dispatcher.forward(request, response);
+        
+        Cookie[] cookies = request.getCookies();
+        Cookie newCookie = new Cookie("user", null);
+        
+        for (Cookie cookie : cookies){
+            if (cookie.getName().equals("user")){
+                newCookie = cookie;
+            }
+        }
+        
+        if (newCookie.getValue() == null || newCookie.equals("")){
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else {
+            User user = modelLogic.findUserByName(newCookie.getValue());
+            String title = request.getParameter("title");
+            Movie movie = modelLogic.findMovieByTitle(title);
+            String status = modelLogic.buyMovie(user, movie);
+            
+            if (status.equals("Success")){
+                response.sendRedirect(request.getContextPath() + "/user");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/menu?status=" + URLEncoder.encode(status,"UTF-8"));               
+            }
+        
+        }        
     }
 
     /**
@@ -60,21 +85,8 @@ public class RegisterServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {        
-        
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String cpassword = request.getParameter("cpassword");
-        
-        String status = modelLogic.createUser(username, password, cpassword);
-        
-        if (status.equals("Success")) {
-            response.sendRedirect(request.getContextPath() + "/login");
-        } else {
-            request.setAttribute("error", status);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
-            dispatcher.forward(request, response);
-        }
+            throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath() + "/login");
     }
 
     /**

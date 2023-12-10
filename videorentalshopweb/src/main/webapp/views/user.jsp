@@ -32,6 +32,13 @@
                 <p>Money: ${user.money}</p>
                 <p>Premium: ${user.premium}</p>
             </div>
+            <div class="container text-center w-25">
+            <form method="POST">
+                <label for="amount" class="form-label"></label>
+                <input type="number" id="amount" class="form-control my-3" name="amount"/>
+                <input type="submit" value="Top up an account" class="btn btn-primary mb-5"/>
+            </form>
+            </div>
             <h1 class="text-center">Your Movies</h1>
             <table class="table table-bordered">
                   <thead>
@@ -61,13 +68,6 @@
                   </c:forEach>
                   </tbody>
             </table>
-        </div>
-        <div class="container text-center w-25">
-            <form method="POST">
-                <label for="amount" class="form-label"></label>
-                <input type="number" id="amount" class="form-control my-3" name="amount"/>
-                <input type="submit" value="Top up an account" class="btn btn-primary"/>
-            </form>
         </div>
     </body>
 </html>

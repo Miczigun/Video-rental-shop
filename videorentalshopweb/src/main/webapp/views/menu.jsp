@@ -60,7 +60,7 @@
                               ${item.price}
                           </td>
                           <td>
-                              <a class="btn btn-success w-100" href="/videorentalshopweb/buy/${item.title}">Buy</a>
+                              <a class="btn btn-success w-100" href="/videorentalshopweb/buy?title=${item.title}">Buy</a>
                           </td>
                       </tr>
                   </c:forEach>

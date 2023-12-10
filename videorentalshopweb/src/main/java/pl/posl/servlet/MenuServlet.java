@@ -12,43 +12,28 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import pl.polsl.model.ModelLogic;
 import pl.polsl.model.User;
 
 /**
+ * Servlet implementation for handling user interactions in the video rental shop application.
  *
- * @author Miczi
+ * This servlet handles user requests related to the main menu, such as displaying available movies,
+ * handling premium membership purchases, and forwarding users to the appropriate views.
+ *
+ * @author Michal Lajczak
+ * @version 1.4
  */
 @WebServlet(name = "MenuServlet", urlPatterns = {"/menu"})
 public class MenuServlet extends HttpServlet {
     
-    private ModelLogic modelLogic = ModelLogic.getInstance();
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * The central logic instance for managing user and movie data in the video rental shop.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MenuServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MenuServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+     * This variable holds the singleton instance of {@link pl.polsl.model.ModelLogic},
+     * which is used throughout the application to access and manipulate user and movie data.
+     */   
+    private ModelLogic modelLogic = ModelLogic.getInstance();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -70,9 +55,13 @@ public class MenuServlet extends HttpServlet {
                 newCookie = cookie;
             }
         }
-        if (newCookie.getValue() == null || newCookie.getValue() == ""){
+        if (newCookie.getValue() == null || newCookie.getValue().equals("")){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
+            String status = request.getParameter("status");
+            if (status != null){
+                request.setAttribute("status", status);
+            }
             User user = modelLogic.findUserByName(newCookie.getValue());
             request.setAttribute("user", user);
             request.setAttribute("movies", modelLogic.getMovies());
@@ -103,7 +92,7 @@ public class MenuServlet extends HttpServlet {
                 newCookie = cookie;
             }
         }
-        if (newCookie.getValue() == null || newCookie.getValue() == ""){
+        if (newCookie.getValue() == null || newCookie.equals("")){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             User user = modelLogic.findUserByName(newCookie.getValue());
