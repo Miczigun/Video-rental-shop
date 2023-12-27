@@ -14,4 +14,4 @@
  * @author Michal Lajczak
  * @version 1.4
  */
-package pl.posl.servlet;
+package pl.polsl.servlet;

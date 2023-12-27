@@ -5,65 +5,94 @@
 package pl.polsl.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import java.util.ArrayList;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
- * Represents a user in the system.
- *
- * This class encapsulates user information such as username, password, movie list, account balance,
- * and premium status. It also provides methods for setting the password, topping up the account balance.
+ * Represents a user entity with various attributes.
  * 
  * @author Michal Lajczak
- * @version 1.4
+ * @version 1.2
  */
-@Getter
-@Setter
+@Data
+@Entity
 public class User {
-    /** The username of the user. */
+
+    /**
+     * The unique identifier for the user.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    /**
+     * The username of the user.
+     */
     private String username;
 
-    /** The hashed password of the user. */
-    private String password;
-
-    /** The list of movies owned by the user. */
-    private List<Movie> userMovies;
-
-    /** The account balance of the user. */
-    private int money;
-
-    /** Indicates whether the user has premium status. */
-    private boolean premium;
+    /**
+     * The hashed password of the user, using the Bcrypt function.
+     */
+    private String password;  
 
     /**
-     * Default constructor for the User class.
-     * Initializes a new User instance with default values.
-     * The user starts with an empty movie list, zero account balance, and non-premium status.
+     * Indicates whether the user has a premium account.
      */
-    public User() {
-        this.money = 0;
-        this.premium = false;
-        this.userMovies = new ArrayList<>();
+    private boolean premium = false;
+
+    /**
+     * The balance in the user's account.
+     */
+    private double balance;
+
+    /**
+     * The list of movies associated with the user, indicating their preferences.
+     */
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_movies",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
+    private List<Movie> movies;
+    
+    private boolean admin;
+
+    /**
+     * Sets the password using the Bcrypt hashing function.
+     * 
+     * @param password The plain text password to be hashed.
+     */
+    public void setPassword(String password){
+        this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());    
     }
 
     /**
-     * Sets the password for the user using BCrypt hashing.
-     *
-     * @param password The plain text password to be hashed and set.
+     * Retrieves the premium status of the user.
+     * 
+     * @return True if the user has a premium account, false otherwise.
      */
-    public void setPassword(String password) {
-        this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray()); 
+    public boolean getPremium(){
+        return this.premium;
     }
-
-    /**
-     * Tops up the user's account balance with the specified amount.
-     *
-     * @param amount The amount to be added to the user's account balance.
-     */
-    public void topUpAccount(int amount) {
-        money += amount;
+    
+    public void addMovie(Movie movie){
+        this.movies.add(movie);
+        movie.getUsers().add(this);
+    }
+    
+    public void deleteMovie(Movie movie){
+        this.movies.remove(movie);
+        movie.getUsers().remove(this);
     }
 }
 

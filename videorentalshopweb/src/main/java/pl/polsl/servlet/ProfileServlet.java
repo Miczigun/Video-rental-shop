@@ -2,29 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package pl.posl.servlet;
+package pl.polsl.servlet;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import pl.polsl.model.ModelLogic;
+
 
 /**
- * Servlet implementation for handling user registration in the video rental shop application.
+ * Servlet implementation for handling user profile-related actions in the video rental shop application.
  *
- * This servlet provides functionality for users to register an account, including processing
- * registration requests, validating user input, and interacting with the central logic instance
- * {@link pl.polsl.model.ModelLogic} to create new user accounts.
+ * This servlet handles user requests related to viewing and managing their profile,
+ * such as displaying user information and movies owned, and topping up the account balance.
  *
  * @author Michal Lajczak
  * @version 1.4
  */
-@WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
-public class RegisterServlet extends HttpServlet {
+@WebServlet(name = "ProfileServlet", urlPatterns = {"/user"})
+public class ProfileServlet extends HttpServlet {
     
     /**
     * The central logic instance for managing user and movie data in the video rental shop.
@@ -32,8 +32,7 @@ public class RegisterServlet extends HttpServlet {
     * This variable holds the singleton instance of {@link pl.polsl.model.ModelLogic},
     * which is used throughout the application to access and manipulate user and movie data.
     */
-    private ModelLogic modelLogic = ModelLogic.getInstance();
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -46,8 +45,27 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
-        dispatcher.forward(request, response);
+        
+        Cookie[] cookies = request.getCookies();
+        Cookie newCookie = new Cookie("user", null);
+        
+        for (Cookie cookie : cookies){
+            if (cookie.getName().equals("user")){
+                newCookie = cookie;
+            }
+        }
+        
+        if (newCookie.getValue() == null || newCookie.equals("")){
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else {
+//            User user = modelLogic.findUserByName(newCookie.getValue());
+//            request.setAttribute("user", user);
+//            request.setAttribute("movies", user.getUserMovies());
+        
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user.jsp");       
+            dispatcher.forward(request, response);
+        }
+
     }
 
     /**
@@ -60,19 +78,27 @@ public class RegisterServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {        
+            throws ServletException, IOException {
         
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String cpassword = request.getParameter("cpassword");
+        Cookie[] cookies = request.getCookies();
+        Cookie newCookie = new Cookie("user", null);
         
-        String status = modelLogic.createUser(username, password, cpassword);
+        for (Cookie cookie : cookies){
+            if (cookie.getName().equals("user")){
+                newCookie = cookie;
+            }
+        }
         
-        if (status.equals("Success")) {
+        if (newCookie.getValue() == null || newCookie.equals("")){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
-            request.setAttribute("error", status);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
+            int amount = Integer.parseInt(request.getParameter("amount"));
+//            User user = modelLogic.findUserByName(newCookie.getValue());
+//            user.topUpAccount(amount);
+//            request.setAttribute("user", user);
+//            request.setAttribute("movies", user.getUserMovies());
+        
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user.jsp");       
             dispatcher.forward(request, response);
         }
     }
