@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import pl.polsl.model.Dao.UserDao;
+import pl.polsl.model.User;
 
 
 /**
@@ -26,6 +28,7 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
     
+    private UserDao userDao = new UserDao();
     /**
     * The central logic instance for managing user and movie data in the video rental shop.
     *
@@ -64,13 +67,16 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        if (false){
-            Cookie userCookie = new Cookie("user", username);
+        String message = userDao.loginUser(username, password);
+        
+        if (message.equals(username)){
+            User user = userDao.getUserByUsername(username);
+            Cookie userCookie = new Cookie("userId", Long.toString(user.getId()));
             userCookie.setMaxAge(3600);
             response.addCookie(userCookie);
             response.sendRedirect(request.getContextPath() + "/menu");
         } else {
-            request.setAttribute("error", "It is not working");
+            request.setAttribute("error", message);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/login.jsp");
             dispatcher.forward(request, response);
         }

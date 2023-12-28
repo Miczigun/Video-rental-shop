@@ -12,6 +12,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import pl.polsl.model.Dao.UserDao;
+import pl.polsl.model.Loan;
+import pl.polsl.model.User;
 
 
 /**
@@ -26,6 +30,7 @@ import java.io.IOException;
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/user"})
 public class ProfileServlet extends HttpServlet {
     
+    private UserDao userDao = new UserDao();
     /**
     * The central logic instance for managing user and movie data in the video rental shop.
     *
@@ -47,10 +52,10 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         
         Cookie[] cookies = request.getCookies();
-        Cookie newCookie = new Cookie("user", null);
+        Cookie newCookie = new Cookie("userId", null);
         
         for (Cookie cookie : cookies){
-            if (cookie.getName().equals("user")){
+            if (cookie.getName().equals("userId")){
                 newCookie = cookie;
             }
         }
@@ -58,10 +63,14 @@ public class ProfileServlet extends HttpServlet {
         if (newCookie.getValue() == null || newCookie.equals("")){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
-//            User user = modelLogic.findUserByName(newCookie.getValue());
-//            request.setAttribute("user", user);
-//            request.setAttribute("movies", user.getUserMovies());
-        
+            
+            User user = userDao.getUserById(Integer.parseInt(newCookie.getValue()));
+            request.setAttribute("user", user);
+            
+            List<Loan> userMovies = userDao.userMovies(Integer.parseInt(newCookie.getValue()));
+            request.setAttribute("movies", userMovies);
+           
+            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user.jsp");       
             dispatcher.forward(request, response);
         }
@@ -81,10 +90,10 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         
         Cookie[] cookies = request.getCookies();
-        Cookie newCookie = new Cookie("user", null);
+        Cookie newCookie = new Cookie("userId", null);
         
         for (Cookie cookie : cookies){
-            if (cookie.getName().equals("user")){
+            if (cookie.getName().equals("userId")){
                 newCookie = cookie;
             }
         }
@@ -93,10 +102,11 @@ public class ProfileServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             int amount = Integer.parseInt(request.getParameter("amount"));
-//            User user = modelLogic.findUserByName(newCookie.getValue());
-//            user.topUpAccount(amount);
-//            request.setAttribute("user", user);
-//            request.setAttribute("movies", user.getUserMovies());
+            userDao.topUpAccount(Integer.parseInt(newCookie.getValue()), amount);
+            User user = userDao.getUserById(Long.parseLong(newCookie.getValue()));
+            
+            request.setAttribute("user", user);
+            request.setAttribute("movies", userDao.userMovies(Integer.parseInt(newCookie.getValue())));
         
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user.jsp");       
             dispatcher.forward(request, response);

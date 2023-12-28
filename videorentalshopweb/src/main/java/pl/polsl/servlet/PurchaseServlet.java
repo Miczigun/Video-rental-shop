@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import pl.polsl.model.Dao.UserDao;
 
 /**
  * Servlet implementation for handling movie purchase in the video rental shop application.
@@ -25,6 +26,7 @@ import java.net.URLEncoder;
 @WebServlet(name = "PurchaseServlet", urlPatterns = {"/buy"})
 public class PurchaseServlet extends HttpServlet {
     
+    private UserDao userDao= new UserDao();
     /**
     * The central logic instance for managing user and movie data in the video rental shop.
     *
@@ -47,10 +49,10 @@ public class PurchaseServlet extends HttpServlet {
             throws ServletException, IOException {
         
         Cookie[] cookies = request.getCookies();
-        Cookie newCookie = new Cookie("user", null);
+        Cookie newCookie = new Cookie("userId", null);
         
         for (Cookie cookie : cookies){
-            if (cookie.getName().equals("user")){
+            if (cookie.getName().equals("userId")){
                 newCookie = cookie;
             }
         }
@@ -58,15 +60,13 @@ public class PurchaseServlet extends HttpServlet {
         if (newCookie.getValue() == null || newCookie.equals("")){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
-//            User user = modelLogic.findUserByName(newCookie.getValue());
-//            String title = request.getParameter("title");
-//            Movie movie = modelLogic.findMovieByTitle(title);
-//            String status = modelLogic.buyMovie(user, movie);
+            int movie_id = Integer.parseInt(request.getParameter("id"));
+            String status = userDao.buyMovie(Integer.parseInt(newCookie.getValue()), movie_id);
             
-            if (false){
+            if (status.equals("Success")){
                 response.sendRedirect(request.getContextPath() + "/user");
             } else {
-                response.sendRedirect(request.getContextPath() + "/menu?status=" + URLEncoder.encode("It is not working","UTF-8"));               
+                response.sendRedirect(request.getContextPath() + "/menu?status=" + URLEncoder.encode(status,"UTF-8"));               
             }
         
         }        

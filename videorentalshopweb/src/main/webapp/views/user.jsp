@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="pl.polsl.model.ModelLogic" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html data-bs-theme="dark">
@@ -29,7 +28,7 @@
         <div class="container mt-3">
             <div class="container text-center">
                 <p>User: ${user.username}</p>
-                <p>Money: ${user.money}</p>
+                <p>Money: ${user.balance}</p>
                 <p>Premium: ${user.premium}</p>
             </div>
             <div class="container text-center w-25">
@@ -44,9 +43,9 @@
                   <thead>
                     <tr>
                       <th>Title</th>
-                      <th>Genre</th>
-                      <th>Year</th>
-                      <th>Price</th>
+                      <th>Taken Date</th>
+                      <th>Brough Date</th>
+                      <th>Return Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -56,13 +55,13 @@
                               ${item.title}
                           </td>
                           <td>
-                              ${item.genre}
+                              ${item.takenDate}
                           </td>
                           <td>
-                              ${item.year}
+                              ${item.broughtDate}
                           </td>
                           <td>
-                              ${item.price}
+                              ${item.returnStatus}
                           </td>
                       </tr>
                   </c:forEach>

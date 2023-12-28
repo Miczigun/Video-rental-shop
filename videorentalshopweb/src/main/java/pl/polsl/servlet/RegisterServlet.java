@@ -4,7 +4,6 @@
  */
 package pl.polsl.servlet;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,10 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
-import pl.polsl.model.Genre;
-import pl.polsl.model.User;
-import pl.polsl.model.UserDao;
+import pl.polsl.model.Dao.UserDao;
 
 /**
  * Servlet implementation for handling user registration in the video rental shop application.
@@ -66,39 +62,21 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
         
-        Genre genre = new Genre();
-        genre.setId(1);
-        genre.setName("Horror");
-        userDao.addGenre(genre);
         
-//        String username = request.getParameter("username");
-//        String password = request.getParameter("password");
-//        String cpassword = request.getParameter("cpassword");
-//
-//        if (!Objects.equals(password, cpassword)) {
-//            // Password and Confirm Password do not match
-//            request.setAttribute("error", "Passwords do not match");
-//            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
-//            dispatcher.forward(request, response);
-//            return;
-//        }
-//
-//        // Additional validation and error handling can be added as needed
-//
-//
-//        // Hash the password using BCrypt or your preferred hashing method
-//        String hashedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-//
-//        // Create a new user
-//        User user = new User();
-//        user.setUsername(username);
-//        user.setPassword(hashedPassword);
-//
-//        // Add the user to the database
-//        userDao.addUser(user);
-//
-//        // Redirect to login page upon successful registration
-//        response.sendRedirect(request.getContextPath() + "/login");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String cpassword = request.getParameter("cpassword");
+        
+        String message = userDao.registerUser(username, password, cpassword);
+        
+        if (message.equals("Success")){
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else {
+            request.setAttribute("error", message);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
+            dispatcher.forward(request, response);
+        }
+        
     }
 
     /**

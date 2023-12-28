@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="pl.polsl.model.ModelLogic" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html data-bs-theme="dark">
@@ -60,7 +59,7 @@
                               ${item.price}
                           </td>
                           <td>
-                              <a class="btn btn-success w-100" href="/videorentalshopweb/buy?title=${item.title}">Buy</a>
+                              <a class="btn btn-success w-100" href="/videorentalshopweb/buy?id=${item.id}">Buy</a>
                           </td>
                       </tr>
                   </c:forEach>

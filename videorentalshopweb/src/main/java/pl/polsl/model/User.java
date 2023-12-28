@@ -52,8 +52,17 @@ public class User {
     /**
      * The balance in the user's account.
      */
-    private double balance;
-
+    private int balance;
+    
+    public User(){}
+    
+    public User(String username, String password){
+        this.username = username;
+        setPassword(password);
+        this.balance = 0;
+        this.admin = false;
+    }
+    
     /**
      * The list of movies associated with the user, indicating their preferences.
      */
@@ -85,14 +94,20 @@ public class User {
         return this.premium;
     }
     
-    public void addMovie(Movie movie){
-        this.movies.add(movie);
-        movie.getUsers().add(this);
+    public void setPasswordWithoutHash(String password){
+        this.password = password;
     }
+
+//Code for JPA
     
-    public void deleteMovie(Movie movie){
-        this.movies.remove(movie);
-        movie.getUsers().remove(this);
-    }
+//    public void addMovie(Movie movie){
+//        this.movies.add(movie);
+//        movie.getUsers().add(this);
+//    }
+//    
+//    public void deleteMovie(Movie movie){
+//        this.movies.remove(movie);
+//        movie.getUsers().remove(this);
+//    }
 }
 

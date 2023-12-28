@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import pl.polsl.model.Dao.MovieDao;
+import pl.polsl.model.Dao.UserDao;
 import pl.polsl.model.User;
 
 /**
@@ -26,6 +28,8 @@ import pl.polsl.model.User;
 @WebServlet(name = "MenuServlet", urlPatterns = {"/menu"})
 public class MenuServlet extends HttpServlet {
     
+    private UserDao userDao = new UserDao();
+    private MovieDao movieDao = new MovieDao();
     /**
      * The central logic instance for managing user and movie data in the video rental shop.
      *
@@ -47,9 +51,9 @@ public class MenuServlet extends HttpServlet {
             throws ServletException, IOException {
         
         Cookie[] cookies = request.getCookies();
-        Cookie newCookie = new Cookie("user", null);
+        Cookie newCookie = new Cookie("userId", null);
         for (Cookie cookie : cookies){
-            if (cookie.getName().equals("user")){
+            if (cookie.getName().equals("userId")){
                 newCookie = cookie;
             }
         }
@@ -60,9 +64,11 @@ public class MenuServlet extends HttpServlet {
             if (status != null){
                 request.setAttribute("status", status);
             }
-//            User user = modelLogic.findUserByName(newCookie.getValue());
+            
+//            User user = userDao.getUserById(Long.parseLong(newCookie.getValue()));
 //            request.setAttribute("user", user);
-//            request.setAttribute("movies", modelLogic.getMovies());
+
+            request.setAttribute("movies", movieDao.getAllMovies());
         
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/menu.jsp");       
             dispatcher.forward(request, response);
@@ -84,21 +90,21 @@ public class MenuServlet extends HttpServlet {
             throws ServletException, IOException {
         
         Cookie[] cookies = request.getCookies();
-        Cookie newCookie = new Cookie("user", null);
+        Cookie newCookie = new Cookie("userId", null);
         for (Cookie cookie : cookies){
-            if (cookie.getName().equals("user")){
+            if (cookie.getName().equals("userId")){
                 newCookie = cookie;
             }
         }
         if (newCookie.getValue() == null || newCookie.equals("")){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
-//            User user = modelLogic.findUserByName(newCookie.getValue());
-//            String status = modelLogic.buyPremium(user);
-//            
-//            request.setAttribute("user", user);
-//            request.setAttribute("movies", modelLogic.getMovies());
-//            request.setAttribute("status", status);
+            
+            //User user = userDao.getUserById(Long.parseLong(newCookie.getValue()));
+            String status = userDao.buyPremium(Integer.parseInt(newCookie.getValue()));
+            
+            request.setAttribute("movies", movieDao.getAllMovies());
+            request.setAttribute("status", status);
        
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/menu.jsp");       
             dispatcher.forward(request, response);
