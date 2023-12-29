@@ -18,23 +18,21 @@ import pl.polsl.model.User;
 
 /**
  * Servlet implementation for handling user login in the video rental shop application.
- *
- * This servlet handles user login requests, interacts with the central logic instance
- * {@link pl.polsl.model.ModelLogic}, and forwards users to the appropriate views based on the login result.
- *
+ * <p>
+ * This servlet provides functionality for users to log in, including processing
+ * login requests, validating user credentials, and interacting with the central logic
+ * instance {@link pl.polsl.model.Dao.UserDao} to authenticate users.
+ * </p>
  * @author Michal Lajczak
- * @version 1.4
+ * @version 1.5
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
     
-    private UserDao userDao = new UserDao();
     /**
-    * The central logic instance for managing user and movie data in the video rental shop.
-    *
-    * This variable holds the singleton instance of {@link pl.polsl.model.ModelLogic},
-    * which is used throughout the application to access and manipulate user and movie data.
-    */   
+     * Data Access Object for handling user-related database operations.
+     */
+    private UserDao userDao = new UserDao(); 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

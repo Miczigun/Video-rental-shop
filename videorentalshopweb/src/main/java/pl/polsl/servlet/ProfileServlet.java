@@ -25,11 +25,13 @@ import pl.polsl.model.User;
  * such as displaying user information and movies owned, and topping up the account balance.
  *
  * @author Michal Lajczak
- * @version 1.4
+ * @version 1.5
  */
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/user"})
 public class ProfileServlet extends HttpServlet {
-    
+    /**
+     * Data Access Object for handling user-related database operations.
+     */
     private UserDao userDao = new UserDao();
     /**
     * The central logic instance for managing user and movie data in the video rental shop.
@@ -101,10 +103,20 @@ public class ProfileServlet extends HttpServlet {
         if (newCookie.getValue() == null || newCookie.equals("")){
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
-            int amount = Integer.parseInt(request.getParameter("amount"));
-            userDao.topUpAccount(Integer.parseInt(newCookie.getValue()), amount);
+            String error = "";
+            try {
+                int amount = Integer.parseInt(request.getParameter("amount"));
+                if (amount <= 0){
+                    error = "Value has to be positive number!";
+                } else {
+                    userDao.topUpAccount(Integer.parseInt(newCookie.getValue()), amount);
+                }
+            } catch (Exception e) {
+                error = "Please enter a value";
+            }
             User user = userDao.getUserById(Long.parseLong(newCookie.getValue()));
             
+            request.setAttribute("error", error);
             request.setAttribute("user", user);
             request.setAttribute("movies", userDao.userMovies(Integer.parseInt(newCookie.getValue())));
         

@@ -4,32 +4,35 @@
  */
 package pl.polsl.servlet;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import pl.polsl.model.Dao.UserDao;
+import pl.polsl.model.Dao.LoanDao;
 
 /**
- * Servlet implementation for handling user registration in the video rental shop application.
- *
- * This servlet provides functionality for users to register an account, including processing
- * registration requests, validating user input, and interacting with the central logic instance
+ * Servlet responsible for handling movie return operations.
+ * <p>
+ * This servlet processes requests related to returning movies, updating the loan status
+ * and redirecting users accordingly.
+ * </p>
  *
  * @author Michal Lajczak
  * @version 1.5
  */
-@WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
-public class RegisterServlet extends HttpServlet {
+@WebServlet(name = "ReturnMovieServlet", urlPatterns = {"/return"})
+public class ReturnMovieServlet extends HttpServlet {
+
     /**
-     * Data Access Object for handling user-related database operations.
+     * Data Access Object for handling movie loans and returns.
      */
-    private UserDao userDao = new UserDao();
-    
+    private LoanDao loanDao = new LoanDao();
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -41,8 +44,28 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
-        dispatcher.forward(request, response);
+        
+        // Retrieve user ID from cookies
+        Cookie[] cookies = request.getCookies();
+        Cookie newCookie = new Cookie("userId", null);
+        
+        for (Cookie cookie : cookies){
+            if (cookie.getName().equals("userId")){
+                newCookie = cookie;
+            }
+        }
+        
+        // Redirect to login if user ID is not present
+        if (newCookie.getValue() == null || newCookie.equals("")){
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else {
+            // Process movie return based on loan ID
+            int loan_id = Integer.parseInt(request.getParameter("id"));
+            loanDao.returnMovie(loan_id);
+            
+            // Redirect to user profile page after movie return
+            response.sendRedirect(request.getContextPath() + "/user");        
+        }
     }
 
     /**
@@ -55,23 +78,8 @@ public class RegisterServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {        
-        
-        
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String cpassword = request.getParameter("cpassword");
-        
-        String message = userDao.registerUser(username, password, cpassword);
-        
-        if (message.equals("Success")){
-            response.sendRedirect(request.getContextPath() + "/login");
-        } else {
-            request.setAttribute("error", message);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/register.jsp");
-            dispatcher.forward(request, response);
-        }
-        
+            throws ServletException, IOException {
+        // No POST handling for this servlet
     }
 
     /**
@@ -81,7 +89,7 @@ public class RegisterServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet responsible for handling movie return operations.";
     }// </editor-fold>
 
 }

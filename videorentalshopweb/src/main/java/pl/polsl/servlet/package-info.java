@@ -4,14 +4,25 @@
  */
 
 /**
- * Provides servlet implementations for managing user actions in the video rental shop application.
+ * Provides servlets for handling various functionalities in the video rental shop application.
  * <p>
- * The servlets in this package handle user interactions related to authentication, user profiles, movie purchases, and more.
- * These servlets communicate with the central logic instance {@link pl.polsl.model.ModelLogic} to access and manipulate
- * user and movie data.
+ * This package contains servlet classes that handle different aspects of the application's
+ * user interface and business logic, including login, menu display, user profiles, movie purchases,
+ * user registration, and movie returns.
+ * </p>
+ * <p>
+ * The main servlet classes in this package are:
+ * <ul>
+ *   <li>{@link pl.polsl.servlet.LoginServlet} - Handles user login functionality.</li>
+ *   <li>{@link pl.polsl.servlet.MenuServlet} - Displays the menu of movies and handles related actions.</li>
+ *   <li>{@link pl.polsl.servlet.ProfileServlet} - Manages user profile information.</li>
+ *   <li>{@link pl.polsl.servlet.PurchaseServlet} - Handles movie purchase transactions.</li>
+ *   <li>{@link pl.polsl.servlet.RegisterServlet} - Manages user registration functionality.</li>
+ *   <li>{@link pl.polsl.servlet.ReturnMovieServlet} - Processes movie return transactions.</li>
+ * </ul>
  * </p>
  *
- * @author Michal Lajczak
- * @version 1.4
+ * @version 1.0
  */
 package pl.polsl.servlet;
+

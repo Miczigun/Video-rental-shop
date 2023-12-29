@@ -21,19 +21,15 @@ import pl.polsl.model.Dao.UserDao;
  * updating user and movie data, and redirecting users to the appropriate views based on the purchase result.
  *
  * @author Michal Lajczak
- * @version 1.4
+ * @version 1.5
  */
 @WebServlet(name = "PurchaseServlet", urlPatterns = {"/buy"})
 public class PurchaseServlet extends HttpServlet {
-    
-    private UserDao userDao= new UserDao();
     /**
-    * The central logic instance for managing user and movie data in the video rental shop.
-    *
-    * This variable holds the singleton instance of {@link pl.polsl.model.ModelLogic},
-    * which is used throughout the application to access and manipulate user and movie data.
-    */
-    //private ModelLogic modelLogic = ModelLogic.getInstance();    
+     * Data Access Object for handling user-related database operations.
+     */
+    private UserDao userDao= new UserDao();
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

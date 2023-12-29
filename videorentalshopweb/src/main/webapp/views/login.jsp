@@ -1,7 +1,8 @@
 <%-- 
     Document   : login
     Created on : 7 gru 2023, 13:51:40
-    Author     : Miczi
+    Author     : Michal Lajczak
+    Version    : 1.5
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

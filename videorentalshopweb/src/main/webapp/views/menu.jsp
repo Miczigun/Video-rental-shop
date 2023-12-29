@@ -1,7 +1,8 @@
 <%-- 
     Document   : menu
     Created on : 7 gru 2023, 15:09:28
-    Author     : Miczi
+    Author     : Michal Lajczak
+    Version    : 1.5
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -32,6 +33,9 @@
             </div>
         </nav>
         <div class="container mt-3">
+            <form method="POST" class="text-center my-4">
+                <input type="submit" value="Buy premium for 50$" class="btn btn-primary"/>
+            </form>
             <h1 class="text-center">Movies</h1>
             <table class="table table-bordered">
                   <thead>
@@ -65,9 +69,6 @@
                   </c:forEach>
                   </tbody>
             </table>
-            <form method="POST" class="text-center">
-                <input type="submit" value="Buy premium for 50$" class="btn btn-primary"/>
-            </form>
         </div>           
     </body>
 </html>

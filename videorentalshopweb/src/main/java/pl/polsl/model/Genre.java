@@ -12,7 +12,7 @@ import lombok.Data;
  * Represents a genre entity with an identifier and a name.
  * 
  * @author Michal Lajczak
- * @version 1.2
+ * @version 1.5
  */
 @Data
 @Entity

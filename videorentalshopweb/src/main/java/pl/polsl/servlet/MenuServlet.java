@@ -28,14 +28,15 @@ import pl.polsl.model.User;
 @WebServlet(name = "MenuServlet", urlPatterns = {"/menu"})
 public class MenuServlet extends HttpServlet {
     
-    private UserDao userDao = new UserDao();
-    private MovieDao movieDao = new MovieDao();
     /**
-     * The central logic instance for managing user and movie data in the video rental shop.
-     *
-     * This variable holds the singleton instance of {@link pl.polsl.model.ModelLogic},
-     * which is used throughout the application to access and manipulate user and movie data.
-     */   
+     * Data Access Object for handling user-related database operations.
+     */
+    private UserDao userDao = new UserDao();
+    
+    /**
+    * Data Access Object for handling movie-related database operations.
+    */
+    private MovieDao movieDao = new MovieDao(); 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -63,10 +64,7 @@ public class MenuServlet extends HttpServlet {
             String status = request.getParameter("status");
             if (status != null){
                 request.setAttribute("status", status);
-            }
-            
-//            User user = userDao.getUserById(Long.parseLong(newCookie.getValue()));
-//            request.setAttribute("user", user);
+            }           
 
             request.setAttribute("movies", movieDao.getAllMovies());
         
@@ -100,7 +98,6 @@ public class MenuServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             
-            //User user = userDao.getUserById(Long.parseLong(newCookie.getValue()));
             String status = userDao.buyPremium(Integer.parseInt(newCookie.getValue()));
             
             request.setAttribute("movies", movieDao.getAllMovies());

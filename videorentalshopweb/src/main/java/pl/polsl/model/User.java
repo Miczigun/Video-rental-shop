@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pl.polsl.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -19,9 +15,13 @@ import lombok.Data;
 
 /**
  * Represents a user entity with various attributes.
- * 
+ * <p>
+ * This class encapsulates information about a user, including their unique identifier,
+ * username, hashed password, premium status, account balance, and associated movie preferences.
+ * </p>
+ *
  * @author Michal Lajczak
- * @version 1.2
+ * @version 1.5
  */
 @Data
 @Entity
@@ -54,8 +54,17 @@ public class User {
      */
     private int balance;
     
+    /**
+     * Default constructor for the User class.
+     */
     public User(){}
     
+    /**
+     * Parameterized constructor for creating a User with a username and password.
+     * 
+     * @param username The username of the user.
+     * @param password The password of the user (plaintext), which will be hashed using Bcrypt.
+     */
     public User(String username, String password){
         this.username = username;
         setPassword(password);
@@ -74,6 +83,9 @@ public class User {
     )
     private List<Movie> movies;
     
+    /**
+     * Indicates whether the user has administrative privileges.
+     */
     private boolean admin;
 
     /**
@@ -94,12 +106,16 @@ public class User {
         return this.premium;
     }
     
+    /**
+     * Sets the password without hashing.
+     * 
+     * @param password The plain text password.
+     */
     public void setPasswordWithoutHash(String password){
         this.password = password;
     }
 
-//Code for JPA
-    
+    // Code for JPA
 //    public void addMovie(Movie movie){
 //        this.movies.add(movie);
 //        movie.getUsers().add(this);
@@ -110,4 +126,3 @@ public class User {
 //        movie.getUsers().remove(this);
 //    }
 }
-

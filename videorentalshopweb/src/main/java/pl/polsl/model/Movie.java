@@ -17,7 +17,7 @@ import lombok.Data;
  * Represents a movie entity with various attributes.
  * 
  * @author Michal Lajczak
- * @version 1.2
+ * @version 1.5
  */
 @Data
 @Entity

@@ -11,23 +11,39 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import pl.polsl.model.Movie;
-import pl.polsl.model.User;
 import pl.polsl.util.ConnectionFactory;
 
 /**
+ * Data Access Object (DAO) class for handling Movie entities.
+ * Manages database operations related to Movie objects.
  *
- * @author Miczi
+ * @author Michal Lajczak
+ * @version 1.5
  */
 public class MovieDao {
     
+    /**
+     * Manages the database connection for MovieDao operations.
+     * The connection is initialized in the constructor and closed appropriately.
+     */
     private Connection connection;
     
+    /**
+     * Constructs a MovieDao object and initializes the database connection.
+     */
     public MovieDao(){
         this.connection = ConnectionFactory.getConnection();
     }
     
+    /**
+     * Retrieves a Movie object by its ID.
+     *
+     * @param movieId The ID of the movie.
+     * @return A Movie object with the specified ID, or null if not found.
+     */
     public Movie getMovieById(long movieId) {
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM MOVIE INNER JOIN GENRE ON MOVIE.GENRE_ID = GENRE.ID WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM MOVIE INNER JOIN GENRE ON MOVIE.GENRE_ID = GENRE.ID WHERE MOVIE.ID = ?")) {
             statement.setLong(1, movieId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -41,10 +57,16 @@ public class MovieDao {
         return null;
     }
     
+    /**
+     * Retrieves a list of all movies from the database.
+     *
+     * @return A list of Movie objects representing all movies in the database.
+     */
     public List<Movie> getAllMovies() {
         List<Movie> movieList = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM MOVIE INNER JOIN GENRE ON MOVIE.GENRE_ID = GENRE.ID")) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM MOVIE INNER JOIN GENRE ON MOVIE.GENRE_ID = GENRE.ID")) {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -57,8 +79,13 @@ public class MovieDao {
         return movieList;
     }
 
-    // Add other methods as needed
-
+    /**
+     * Extracts a Movie object from a ResultSet.
+     *
+     * @param resultSet The ResultSet containing movie-related data.
+     * @return A Movie object with data extracted from the ResultSet.
+     * @throws SQLException If a database access error occurs.
+     */
     private Movie extractMovieFromResultSet(ResultSet resultSet) throws SQLException {
         
         Movie movie = new Movie();

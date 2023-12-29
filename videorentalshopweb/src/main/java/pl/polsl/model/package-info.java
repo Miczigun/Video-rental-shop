@@ -4,13 +4,29 @@
  */
 
 /**
- * Provides classes for modeling entities in the video rental shop application.
- *
- * This package includes classes such as {@link pl.polsl.model.User} representing users,
- * {@link pl.polsl.model.Movie} representing movies, and {@link pl.polsl.model.ModelLogic}
- * providing the central logic for managing user and movie data in the application.
+ * Provides classes representing entities for the video rental shop application.
+ * <p>
+ * This package contains entity classes representing core entities such as User and Loan.
+ * These classes encapsulate information related to users, movie loans, and other key entities
+ * in the video rental shop domain.
+ * </p>
+ * <p>
+ * The main classes in this package are:
+ * <ul>
+ *   <li>{@link pl.polsl.model.User} - Represents a user entity with various attributes.</li>
+ *   <li>{@link pl.polsl.model.Loan} - Represents a loan of a movie by a user in the video rental shop.</li>
+ *   <li>{@link pl.polsl.model.Genre} - Represents a genre entity with various attributes.</li>
+ *   <li>{@link pl.polsl.model.Movie} - Represents a movie entity with various attributes.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * Additionally, this package may include other related classes such as enums, constants, or utilities
+ * that support the functionality of the entity classes.
+ * </p>
  *
  * @author Michal Lajczak
- * @version 1.4
+ * @version 1.5
+ * 
  */
 package pl.polsl.model;
+
