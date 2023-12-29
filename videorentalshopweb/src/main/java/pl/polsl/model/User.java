@@ -73,6 +73,20 @@ public class User {
     }
     
     /**
+     * Parameterized constructor for creating a User with a username,password and balance.
+     * 
+     * @param username The username of the user.
+     * @param password The password of the user (plaintext), which will be hashed using Bcrypt.
+     * @param balance The balance of the user.
+     */
+    public User(String username, String password, int balance){
+        this.username = username;
+        setPassword(password);
+        this.balance = balance;
+        this.admin = false;
+    }
+    
+    /**
      * The list of movies associated with the user, indicating their preferences.
      */
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
