@@ -16,7 +16,15 @@ The Video Rental Shop project aims to provide a user-friendly interface for a vi
 
 To run the project locally, follow these steps:
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/your-username/your-repository.git
+1. **Download Netbeans 18:**
+https://netbeans.apache.org/front/main/download/nb18/
+2. **Install payara server in netbeans:**
+https://blog.payara.fish/adding-payara-server-to-netbeans
+3. **Download Apache Derby 10.14.2.0 and config in NetBeans:**
+https://db.apache.org/derby/releases/release-10_14_2_0.html
+https://netbeans.apache.org/tutorial/main/kb/docs/ide/java-db/
+4. **Run project to create tables:**
+5. **Run genres and movies SQL files in apache derby:**
 
+## Usage
+https://www.youtube.com/watch?v=9LXW5X8emR0&ab_channel=Miczi2012
