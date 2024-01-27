@@ -37,7 +37,7 @@ public class DatabaseInitializer {
                     + "( id int NOT NULL,"
                     + "name varchar(30),"
                     + "PRIMARY KEY (id) )";
-            stmt.executeQuery(query);
+            stmt.executeUpdate(query);
         } catch (SQLException e) {
             //Table exists
             e.printStackTrace();
@@ -59,7 +59,7 @@ public class DatabaseInitializer {
                     + "PRIMARY KEY (id),"
                     + "FOREIGN KEY (genre_id) REFERENCES GENRE(id) )";
 
-            stmt.executeQuery(query);
+            stmt.executeUpdate(query);
 
         } catch (SQLException e) {
             //Table exists
@@ -82,7 +82,7 @@ public class DatabaseInitializer {
                     + "admin_status boolean,"
                     + "PRIMARY KEY (id) )";
 
-            stmt.executeQuery(query);
+            stmt.executeUpdate(query);
 
         } catch (SQLException e) {
             //Table exists
@@ -107,7 +107,7 @@ public class DatabaseInitializer {
                     + "FOREIGN KEY (member_id) REFERENCES MEMBER(id),"
                     + "FOREIGN KEY (movie_id) REFERENCES MOVIE(id) )";
 
-            stmt.executeQuery(query);
+            stmt.executeUpdate(query);
 
         } catch (SQLException e) {
             //Table exists
