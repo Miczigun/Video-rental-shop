@@ -96,7 +96,7 @@ public class DatabaseInitializer {
     public void createLoan() {
         try (Statement stmt = connection.createStatement()) {
 
-            String query = "CREATE TABLE MOVIE"
+            String query = "CREATE TABLE LOAN"
                     + "( id int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
                     + "member_id int,"
                     + "movie_id int,"
